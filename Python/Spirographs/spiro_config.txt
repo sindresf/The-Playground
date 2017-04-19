@@ -1,0 +1,12 @@
+
+|-BASIC
+x_start=100
+y_start=100
+big_radius=50
+small_radius=25
+resolution=5
+
+|-Extended
+color_walk_type=Transition
+start_color=[112,112,112]
+end_color=[0,0,225]
