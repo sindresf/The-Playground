@@ -10,3 +10,5 @@ resolution=5
 color_walk_type=Transition
 start_color=[112,112,112]
 end_color=[0,0,225]
+filled=false
+fill_color=[25,25,25]
