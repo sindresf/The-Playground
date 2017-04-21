@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap as lcm
 from AdelineGD import AdelineGD as Adeline
+from AdalineSGD import AdalineSGD as AdalineSGD
 
 epochs = 16
 online_data_path = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
@@ -51,6 +52,7 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
                     alpha=0.8, c=cmap(idx),
                     marker=markers[idx], label=cl)
 
+print('running Gradient Descent')
 ada = Adeline(n_iter=epochs, eta=0.01)
 ada.fit(X_std,y)
 plot_decision_regions(X_std,y, classifier=ada)
@@ -62,4 +64,18 @@ plt.show()
 plt.plot(range(1, len(ada.cost_) + 1), ada.cost_, marker='o')
 plt.xlabel = 'Epochs'
 plt.ylabel = 'SQE'
+plt.show()
+plt.clf()
+print('running Stochastic Gradient Descent')
+adaS = AdalineSGD(eta=0.01, n_iter=epochs, random_state=1)
+adaS.fit(X_std, y)
+plot_decision_regions(X_std,y, classifier=adaS)
+plt.title = 'Adeline - Stochastic Gradient Descent'
+plt.xlabel = 'sepal length [std]'
+plt.ylabel = 'petal length [std]'
+plt.legend(loc='upper left')
+plt.show()
+plt.plot(range(1, len(adaS.cost_) + 1), adaS.cost_, marker='o')
+plt.xlabel = 'Epochs'
+plt.ylabel = 'Average Cost'
 plt.show()

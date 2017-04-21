@@ -32,6 +32,7 @@ class AdelineGD(object):
             n_features is the number of features.
 
         y : array-like, shape = [n_samples]
+            Target values.
 
         Returns
         ---------
