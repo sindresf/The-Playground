@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a944e836-5a21-45bc-9686-299f3915a387</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Voting_Ensemble.py</StartupFile>
+    <StartupFile>SVM_digits.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
