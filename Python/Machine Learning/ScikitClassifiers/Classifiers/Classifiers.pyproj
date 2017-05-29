@@ -27,6 +27,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classifiers.py" />
+    <Compile Include="Random_Forrest_Classification.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SVM_digits.py">
       <SubType>Code</SubType>
     </Compile>

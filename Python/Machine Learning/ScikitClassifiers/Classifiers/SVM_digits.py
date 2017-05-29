@@ -95,13 +95,13 @@ print('stacking SVCs')
 
 test_data = pd.read_csv('W:/Datasets/MNIST/test.csv')
 test_data[test_data > 0] = 1
-pred1 = clf_bucket.predict(bt_trn_imgs + bt_tst_imgs)
-pred2 = clf_hard.predict(hl_trn_imgs + hl_tst_imgs)
-pred3 = clf_soft.predict(sb_trn_imgs + sb_tst_imgs)
+pred1 = clf_bucket.predict(bt_trn_imgs.append(bt_tst_imgs))
+pred2 = clf_hard.predict(hl_trn_imgs.append(hl_tst_imgs))
+pred3 = clf_soft.predict(sb_trn_imgs.append(sb_tst_imgs))
 stack_train_data = pd.DataFrame(np.column_stack([pred1,pred2,pred3]), columns=['bucket','hard','soft'])
 
 clf_stack = svm.SVC()
-clf_stack.fit(stack_train_data,train_labels.values.ravel() + stack_train_data.values.ravel())
+clf_stack.fit(stack_train_data,(train_labels.append(test_labels)).values.ravel())
 
 test_pred1 = clf_bucket.predict(bt_tst_imgs)
 test_pred2 = clf_hard.predict(hl_tst_imgs)
