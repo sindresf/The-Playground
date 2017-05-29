@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a944e836-5a21-45bc-9686-299f3915a387</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>AdaBoost.py</StartupFile>
+    <StartupFile>Stochastic Gradient Boosting.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -34,6 +34,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Random_Forrest_Classification.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Stochastic Gradient Boosting.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SVM_digits.py">
