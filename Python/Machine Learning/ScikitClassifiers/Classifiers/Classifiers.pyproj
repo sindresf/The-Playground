@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a944e836-5a21-45bc-9686-299f3915a387</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Extra_Trees.py</StartupFile>
+    <StartupFile>AdaBoost.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,6 +23,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdaBoost.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Bagged_Decision_Trees_Classification.py">
       <SubType>Code</SubType>
     </Compile>
