@@ -24,7 +24,7 @@ def mean_split(data, std_weight):
 
 path = 'W:/Datasets/MNIST/train.csv'
 data = pd.read_csv(path)
-working_size = 3500
+working_size = 5000
 images = data.iloc[:working_size,1:]
 labels = data.iloc[:working_size,:1]
 seed = 21
@@ -38,7 +38,7 @@ img = bt_trn_imgs.iloc[i].as_matrix().reshape((28,28))
 plt.clf()
 plt.imshow(img, cmap='viridis')
 #plt.show()
-clf_bucket = svm.SVC()
+clf_bucket = svm.SVC(random_state=seed)
 clf_bucket.fit(bt_trn_imgs, train_labels.values.ravel())
 score = clf_bucket.score(bt_tst_imgs,test_labels)
 print('bucket score ' + str(score))
@@ -53,7 +53,7 @@ def grid_search(gridVals):
     for n in gridVals:
         bt_tst_imgs = mean_split(test_images,n)
         bt_trn_imgs = mean_split(train_images,n)
-        clf_bucket = svm.SVC()
+        clf_bucket = svm.SVC(random_state=seed)
         clf_bucket.fit(bt_trn_imgs, train_labels.values.ravel())
         score = clf_bucket.score(bt_tst_imgs,test_labels)
         if(score > best_score[0]):
@@ -73,12 +73,8 @@ print('looking closer..')
 best_w = []
 best_s = [bs[0]]
 for w in bw:
-    minutiae_grid = np.arange(w - 0.024, w + 0.026,0.001)
+    minutiae_grid = np.arange(w - 0.02, w + 0.02,0.0025)
     mbw,mbs = grid_search(minutiae_grid)
-    print()
-    print('winning std weight: ' + str(mbw))
-    print('got score: ' + str(mbs))
-    print()
     if(max(mbs) > best_s[0]):
         best_w = mbw
         best_s = mbs
@@ -96,7 +92,7 @@ final_grid_score = best_s[0]
 print('final weight: ' + str(final_weight))
 print('final score: ' + str(final_grid_score))
 
-final_clf = svm.SVC()
+final_clf = svm.SVC(random_state=seed)
 final_test_images = mean_split(test_images,final_weight)
 final_train_images = mean_split(train_images,final_weight)
 final_clf.fit(final_train_images,train_labels.values.ravel())
