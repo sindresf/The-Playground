@@ -5,14 +5,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a944e836-5a21-45bc-9686-299f3915a387</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>SVM_digits.py</StartupFile>
+    <StartupFile>Keras_network_no_1.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>Classifiers</Name>
     <RootNamespace>Classifiers</RootNamespace>
-    <InterpreterId>Global|ContinuumAnalytics|Anaconda36-64</InterpreterId>
+    <InterpreterId>Global|PythonCore|3.5</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,7 +33,13 @@
     <Compile Include="Extra_Trees.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Keras_network_no_1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Random_Forrest_Classification.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Stacking_SonarModels.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Stochastic Gradient Boosting.py">
@@ -47,7 +53,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda36-64" />
+    <InterpreterReference Include="Global|PythonCore|3.5" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
