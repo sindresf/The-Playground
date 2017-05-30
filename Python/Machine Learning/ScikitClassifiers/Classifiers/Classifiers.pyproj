@@ -39,9 +39,6 @@
     <Compile Include="Random_Forrest_Classification.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Stacking_SonarModels.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Stochastic Gradient Boosting.py">
       <SubType>Code</SubType>
     </Compile>
