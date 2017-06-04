@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4e7d8b5f-df9d-4582-a125-6594415d765f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>plot_data.py</StartupFile>
+    <StartupFile>live_plot_datapy.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -26,6 +26,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="live_plot_datapy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="model.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="plot_data.py">

@@ -1,14 +1,14 @@
 import numpy as np
-from bokeh.plotting import figure, output_file, show
 
 #DEFINE INNER FUNCTIONS
 def inv_log_func(x, a, b):
-    return ((a*starting_score) / (np.log(b * x)))
+    return ((a * starting_score) / (np.log(b * x)))
 
 def bump_func(x,e):
     return (e * np.sin(x - np.pi / 2)) + e
 
 def sin_vals(ampl,steps):
+    if (steps < 1): steps = 1
     sin_step = (np.pi * 2.0) / steps
     x_range = np.arange(0,np.pi * 2.0 + 0.1,sin_step)
     sin_vals = [bump_func(x,ampl) for x in x_range]
@@ -51,7 +51,6 @@ def get_bz():
     bmd = b * np.random.uniform(low=0.95, high=1.05)
     bma = b * np.random.uniform(low=1.75, high=1.225)
     return [bmi,bmd,bma]
-    
 
 def make_trios(count):
     all_lines = []
@@ -62,7 +61,7 @@ def make_trios(count):
     e = 10
     for i in range(count):
         all_lines.extend(make_trio(az,bz,c,d,e))
-        az =  get_az()
+        az = get_az()
         bz = get_bz()
         c = np.random.uniform(low=0.23, high=0.85)
         d = int(np.random.uniform(low=2, high=28))
@@ -86,7 +85,7 @@ line_count = 30
 
 range_start = 60
 range_end = 1720
-step = 8
+step = 20
 data_range = np.arange(range_start,range_end,step)
 
 rand_seed = 21
