@@ -6,7 +6,7 @@ def plot_sin(steps):
     sin = sin_vals(steps)
 
     output_file("sine_line.html")
-    sp = figure(width=800, height=800)
+    sp = figure(width=1800, height=800)
     sin_step = (np.pi * 2.0) / steps
     x_range = np.arange(0,np.pi * 2.0 + 0.1,sin_step)
     sp.line(x_range,sin,legend='sin_bump', alpha=0.7, line_width=4, color='green')
@@ -14,13 +14,13 @@ def plot_sin(steps):
 
     
 def add_trio_to_plot(plot, trio):
-    plot.line(data_range,trio[0], alpha=0.6 + np.random.normal(0,0.2), line_width=int(np.random.uniform(low=2.8, high=5.3)), color='green')
-    plot.line(data_range,trio[1], alpha=0.6 + np.random.normal(0,0.2), line_width=int(np.random.uniform(low=2.8, high=5.3)), color = 'navy')
-    plot.line(data_range,trio[2], alpha=0.6 + np.random.normal(0,0.2), line_width=int(np.random.uniform(low=2.8, high=5.3)), color='red')
+    plot.line(data_range,trio[0], alpha=0.5 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.3)), color='green')
+    plot.line(data_range,trio[1], alpha=0.5 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.3)), color = 'navy')
+    plot.line(data_range,trio[2], alpha=0.5 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.3)), color='red')
 
 #DEFINE STARTING VALUES
 range_start = 60
-range_end = 720
+range_end = 1720
 step = 8
 data_range = np.arange(range_start,range_end,step)
 rand_seed = 21
@@ -36,7 +36,6 @@ trios = []
 for i in range(2,len(lines),3):
     trio = [lines[i - 2][1:],lines[i - 1][1:],lines[i][1:]]
     trios.append(trio)
-
 for trio in trios:
     add_trio_to_plot(plot,trio)
     

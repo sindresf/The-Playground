@@ -82,10 +82,10 @@ a_min = 0.8
 b_min = b * 0.85
 
 e = 10
-line_count = 20
+line_count = 30
 
 range_start = 60
-range_end = 720
+range_end = 1720
 step = 8
 data_range = np.arange(range_start,range_end,step)
 
