@@ -134,7 +134,7 @@ utrainPredictPlot[ulook_back:len(utrainPredict) + ulook_back] = utrainPredict
 #utestPredictPlot[len(utrainPredict) + (ulook_back * 2) + 1:len(lines.T) - 1,
 #:] = utestPredict
 ## plot baseline and predictions
-plt.plot(lines)
-plt.plot(utrainPredictPlot)
+#plt.plot(lines[0].T)
+plt.plot(utrainPredictPlot.T)
 #plt.plot(utestPredictPlot)
 plt.show()
