@@ -10,9 +10,13 @@ step = 20
 data_range = np.arange(range_start,range_end,step)
 rand_seed = 21
 np.random.seed(rand_seed)
-
 csv_path = 'W:\Datasets\synth_scoring\lines.csv'
 lines = np.loadtxt(csv_path)
+
+line = lines[np.random.randint(0,len(lines))]
+alco = line[0]
+line = line[1:]
+print(alco)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -34,7 +38,7 @@ fig.canvas.draw()
 plt.show(block=False)
 
 def inv_log_func(x):
-    return ((1 * 350) / (np.log(1 * x)))
+    return line[x] #((1 * 350) / (np.log(1 * x)))
 
 # loop to update the data
 count = 1
@@ -47,7 +51,7 @@ while count < len(y):
 
         fig.canvas.draw()
 
-        time.sleep(0.1)
+        time.sleep(0.2)
         count += 1
     except KeyboardInterrupt:
         break

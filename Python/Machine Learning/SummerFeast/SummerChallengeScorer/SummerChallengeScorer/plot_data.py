@@ -21,7 +21,7 @@ def add_trio_to_plot(plot, trio):
 #DEFINE STARTING VALUES
 range_start = 60
 range_end = 1720
-step = 20
+step = 24
 data_range = np.arange(range_start,range_end,step)
 rand_seed = 21
 np.random.seed(rand_seed)
