@@ -2,7 +2,7 @@ import numpy as np
 
 #DEFINE INNER FUNCTIONS
 def inv_log_func(x, a, b):
-    return ((a * starting_score) / (np.log(b * x)))
+    return ((a * starting_score) / (2 + np.log(b * x)))
 
 def bump_func(x,e):
     return (e * np.sin(x - np.pi / 2)) + e
@@ -15,9 +15,9 @@ def sin_vals(ampl,steps):
     return sin_vals
 
 def make_line_trio_data(ami,a,ama,bmi,b,bma):
-    min_data = [int(inv_log_func(x,ami,bmi)) if x < 400 else int(inv_log_func(x,ami,bmi) - 0.004 * x) for x in data_range]
-    mid_data = [int(inv_log_func(x,a,b)) if x < 200 else int(inv_log_func(x,a,b) - 0.0042 * x) for x in data_range]
-    max_data = [int(inv_log_func(x,ama,bma) - 0.015 * x) for x in data_range]
+    min_data = [int(inv_log_func(x,ami,bmi)) if x <= 360 else int(inv_log_func(x,ami,bmi) + 0.003 * x) for x in data_range]
+    mid_data = [int(inv_log_func(x,a,b)) if x < 120 else int(inv_log_func(x,a,b) - 0.017 * x) for x in data_range]
+    max_data = [int(inv_log_func(x,ama,bma) - 0.029 * x) for x in data_range]
     return min_data,mid_data,max_data
 
 def add_bump_func(vals,ampl,frm,to):
@@ -41,15 +41,15 @@ def make_trio(a,b,c,d,ampl):
     return [a[0]] + mini,[a[1]] + mid,[a[2]] + maxi
 
 def get_az():
-    ami = np.random.uniform(low=0.6, high=0.9)
-    amd = np.random.uniform(low=0.9, high=1.1)
-    ama = np.random.uniform(low=1.1, high=1.4)
+    ami = np.random.uniform(low=0.4, high=0.7)
+    amd = np.random.uniform(low=0.71, high=0.95)
+    ama = np.random.uniform(low=1.0, high=1.175)
     return [ami,amd,ama]
 
 def get_bz():
-    bmi = b * np.random.uniform(low=0.8, high=0.95)
-    bmd = b * np.random.uniform(low=0.95, high=1.05)
-    bma = b * np.random.uniform(low=1.75, high=1.225)
+    bmi = b * np.random.uniform(low=0.9, high=0.95)
+    bmd = b * np.random.uniform(low=0.96, high=1.05)
+    bma = b * np.random.uniform(low=1.2, high=1.67)
     return [bmi,bmd,bma]
 
 def make_trios(count):
@@ -63,16 +63,16 @@ def make_trios(count):
         all_lines.extend(make_trio(az,bz,c,d,e))
         az = get_az()
         bz = get_bz()
-        c = np.random.uniform(low=0.23, high=0.85)
-        d = int(np.random.uniform(low=2, high=28))
-        e = int(np.random.uniform(low=7, high=14))
+        c = np.random.uniform(low=0.21, high=0.9)
+        d = int(np.random.uniform(low=1, high=30))
+        e = int(np.random.uniform(low=5, high=13))
     return all_lines
 
 #DEFINE STARTING VALUES
 starting_score = 350.0
 
 a = 1.0
-b = 0.05
+b = 0.025
 
 a_max = 1.2
 b_max = b * 1.15
@@ -81,11 +81,11 @@ a_min = 0.8
 b_min = b * 0.85
 
 e = 10
-line_count = 100
+line_count = 150
 
 range_start = 60
-range_end = 1720
-step = 24
+range_end = 1200
+step = 15
 data_range = np.arange(range_start,range_end,step)
 
 rand_seed = 21

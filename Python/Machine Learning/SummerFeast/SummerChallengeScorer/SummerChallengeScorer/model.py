@@ -52,7 +52,7 @@ testX, testY = create_dataset(test,look_back)
 
 #unscaled
 utrain_size = int(len(lines) * 0.67)
-utest_size = int(len(lines)) - train_size
+utest_size = int(len(lines)) - utrain_size
 utrain, utest = lines[0:utrain_size,:].T, lines[utrain_size:,:].T
 
 ulook_back = 6

@@ -14,21 +14,21 @@ def plot_sin(steps):
 
     
 def add_trio_to_plot(plot, trio):
-    plot.line(data_range,trio[0], alpha=0.5 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.3)), color='green')
-    plot.line(data_range,trio[1], alpha=0.5 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.3)), color = 'navy')
-    plot.line(data_range,trio[2], alpha=0.5 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.3)), color='red')
+    plot.line(data_range,trio[0], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.1)), color='green')
+    plot.line(data_range,trio[1], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.1)), color = 'navy')
+    plot.line(data_range,trio[2], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.1)), color='red')
 
 #DEFINE STARTING VALUES
 range_start = 60
-range_end = 1720
-step = 24
+range_end = 1200
+step = 15
 data_range = np.arange(range_start,range_end,step)
 rand_seed = 21
 np.random.seed(rand_seed)
 
 #PUT IT ALL TOGETHE
 output_file("base_line_bCoef.html")
-plot = figure(width = 1200, height = 600)
+plot = figure(width = 1400, height = 800)
 
 csv_path = 'W:\Datasets\synth_scoring\lines.csv'
 lines = np.loadtxt(csv_path)
@@ -36,6 +36,7 @@ trios = []
 for i in range(2,len(lines),3):
     trio = [lines[i - 2][1:],lines[i - 1][1:],lines[i][1:]]
     trios.append(trio)
+np.random.shuffle(trios)
 for trio in trios:
     add_trio_to_plot(plot,trio)
     

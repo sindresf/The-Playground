@@ -18,58 +18,43 @@ lines = np.loadtxt(csv_path)
 alco = np.asarray([line[0] for line in lines])
 lines = np.asarray([line[1:] for line in lines])
 
-line = lines[0]
+def get_line_split(line,alco=1.0, look_back=1):
+    line_look_back, line_pred = [],[]
+    for i in range(1,len(line) - look_back - 2):
+        xb = np.array(line[i:(i + look_back + 1)])
+        xa = [np.array([v], dtype='float32') for v in xb]
+        yb = line[i + look_back]
+        for x in range(i, i + look_back + 1):
+            if(x == 1):
+                xa[x - i] = np.array([line[0], step, alco], dtype='float32')
+            else:
+                xa[x - i] = np.array([xb[x - i - 1],x * step, alco], dtype='float32')
+        line_look_back.append(np.array(xa))
+        line_pred.append(yb)
+    return np.array(line_look_back), np.array(line_pred)
 
-plt.plot(line)
-plt.show()
+def create_lines_splits(lines, alcos, look_back=1):
+    lines_look_back, lines_pred = [],[]
+    alco_count = 0
+    for line in lines:
+        lb,pred = get_line_split(line,alcos[alco_count],look_back)
+        lines_look_back.append(lb)
+        lines_pred.append(pred)
+        alco_count += 1
+    return np.array(lines_look_back), np.array(lines_pred)
 
-plt.hist(alco)
-plt.show()
+lines_look_back, lines_pred = create_lines_splits(lines,alco,look_back=4)
 
-#scaler = MinMaxScaler(feature_range=(0,1))
-#lines_scaled = scaler.fit_transform(lines.T)
+def create_train_test_split(look_backs, preds, train_size=0.67):
+    train_LB, train_pred, test_LB, test_pred = [],[],[],[]
+    split_index = int(len(look_backs) * train_size)
+    train_LB = look_backs[:split_index]
+    train_pred = preds[:split_index]
+    test_LB = look_backs[split_index:]
+    test_pred = preds[split_index:]
+    return np.array(train_LB),np.array(train_pred),np.array(test_LB), np.array(test_pred)
 
-##training splitt
-#train_size = int(len(lines_scaled) * 0.67)
-#test_size = int(len(lines_scaled)) - train_size
-#train, test = lines_scaled[0:train_size,:].T, lines_scaled[train_size:,:].T
-
-
-## convert an array of values into a dataset matrix
-#def create_dataset(dataset, look_back=1):
-#	dataX, dataY = [], []
-#	for i in range(len(dataset) - look_back - 1):
-#		a = dataset[i:(i + look_back), 0]
-#		dataX.append(a)
-#		dataY.append(dataset[i + look_back, 0])
-#	return np.array(dataX), np.array(dataY)
-
-#look_back = 4
-#trainX, trainY = create_dataset(train,look_back)
-#testX, testY = create_dataset(test,look_back)
-
-##print(trainX[0])
-##print(trainY[0])
-##print()
-##print(trainX[1])
-##plt.plot(trainX)
-##plt.show()
-
-##unscaled
-#utrain_size = int(len(lines) * 0.67)
-#utest_size = int(len(lines)) - train_size
-#utrain, utest = lines[0:utrain_size,:].T, lines[utrain_size:,:].T
-
-#ulook_back = 6
-#utrainX, utrainY = create_dataset(utrain,ulook_back)
-#utestX, utestY = create_dataset(utest,ulook_back)
-
-##print(utrainX[0])
-##print(utrainY[0])
-##print()
-##print(utrainX[1])
-##plt.plot(utrainX)
-##plt.show()
+train_LB, train_pred, test_LB, test_pred = create_train_test_split(lines_look_back,lines_pred)
 
 ## reshape input to be [samples, time steps, features]
 #trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))

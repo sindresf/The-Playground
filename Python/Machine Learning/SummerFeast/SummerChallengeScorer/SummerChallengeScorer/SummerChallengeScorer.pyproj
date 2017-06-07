@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4e7d8b5f-df9d-4582-a125-6594415d765f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>data_reworker_for_model.py</StartupFile>
+    <StartupFile>plot_data.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
