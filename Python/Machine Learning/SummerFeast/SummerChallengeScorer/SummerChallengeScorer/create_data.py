@@ -15,9 +15,9 @@ def sin_vals(ampl,steps):
     return sin_vals
 
 def make_line_trio_data(ami,a,ama,bmi,b,bma):
-    min_data = [int(inv_log_func(x,ami,bmi) - 0.0006 * x) for x in data_range]
-    mid_data = [int(inv_log_func(x,a,b) - 0.0033 * x) for x in data_range]
-    max_data = [int(inv_log_func(x,ama,bma) - 0.013 * x) for x in data_range]
+    min_data = [int(inv_log_func(x,ami,bmi)) if x < 400 else int(inv_log_func(x,ami,bmi) - 0.004 * x) for x in data_range]
+    mid_data = [int(inv_log_func(x,a,b)) if x < 200 else int(inv_log_func(x,a,b) - 0.0042 * x) for x in data_range]
+    max_data = [int(inv_log_func(x,ama,bma) - 0.015 * x) for x in data_range]
     return min_data,mid_data,max_data
 
 def add_bump_func(vals,ampl,frm,to):

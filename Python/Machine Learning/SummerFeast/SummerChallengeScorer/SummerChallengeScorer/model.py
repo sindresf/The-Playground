@@ -11,7 +11,7 @@ from sklearn.metrics import mean_squared_error
 #DEFINE STARTING VALUES
 range_start = 60
 range_end = 1720
-step = 8
+step = 24
 data_range = np.arange(range_start,range_end,step)
 rand_seed = 21
 np.random.seed(rand_seed)
