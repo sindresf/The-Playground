@@ -56,6 +56,9 @@ def create_train_test_split(look_backs, preds, train_size=0.67):
 
 train_LB, train_pred, test_LB, test_pred = create_train_test_split(lines_look_back,lines_pred)
 
+def scale_data_down(scaler,): #not done for now
+    return 1
+
 ## reshape input to be [samples, time steps, features]
 #trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
 #testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))

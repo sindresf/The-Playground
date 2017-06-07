@@ -14,9 +14,9 @@ def plot_sin(steps):
 
     
 def add_trio_to_plot(plot, trio):
-    plot.line(data_range,trio[0], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.1)), color='green')
-    plot.line(data_range,trio[1], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.1)), color = 'navy')
-    plot.line(data_range,trio[2], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.8, high=5.1)), color='red')
+    plot.line(data_range,trio[0], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.4, high=5.1)), color='green')
+    plot.line(data_range,trio[1], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.4, high=5.1)), color = 'navy')
+    plot.line(data_range,trio[2], alpha=0.4 + np.random.normal(0,0.35), line_width=int(np.random.uniform(low=2.4, high=5.1)), color='red')
 
 #DEFINE STARTING VALUES
 range_start = 60
@@ -48,3 +48,19 @@ plot.yaxis.axis_label = 'Score'
 plot.ygrid.band_fill_color = "olive"
 plot.ygrid.band_fill_alpha = 0.1
 show(plot)
+
+def highlight_plot(plot, lines, hli=0):
+    for line in lines:
+        plot.line(data_range,line[1:], alpha=0.05 + np.random.normal(0,0.18), line_width=2, color='gray')
+    plot.line(data_range,lines[hli][1:], line_width=3, color='red')
+    show(plot)
+    
+output_file("highlight_plot.html")
+hlplot = figure(width = 1400, height = 800)
+hlplot.legend.location = "top_right"
+hlplot.grid.grid_line_alpha = 0
+hlplot.xaxis.axis_label = 'Seconds'
+hlplot.yaxis.axis_label = 'Score'
+hlplot.ygrid.band_fill_color = "olive"
+hlplot.ygrid.band_fill_alpha = 0.1
+highlight_plot(hlplot,lines,np.random.randint(0,len(lines)))

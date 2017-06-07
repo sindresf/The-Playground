@@ -5,8 +5,8 @@ import time
 
 #DEFINE STARTING VALUES
 range_start = 60
-range_end = 1720
-step = 20
+range_end = 1200
+step = 15
 data_range = np.arange(range_start,range_end,step)
 rand_seed = 21
 np.random.seed(rand_seed)
@@ -22,7 +22,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 axes = plt.gca()
 axes.set_xlim([0,range_end])
-axes.set_ylim([0,600])
+axes.set_ylim([0,180])
 
 # some X and Y data
 x = data_range
