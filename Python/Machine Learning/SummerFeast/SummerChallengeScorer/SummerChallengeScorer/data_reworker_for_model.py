@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import math
 from keras.models import Sequential
+from keras.models import load_model
 from keras.layers import *
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
@@ -103,26 +104,30 @@ def train_on_all_lines(model, lines, lines_preds, epochs):
         train_on_one_line(model,line,pred,epochs)
 
 #model train try
-batch_size = 4
+batch_size = 17
 model = Sequential()
 model.add(LSTM(100, stateful=True, return_sequences=True, input_shape=(3, look_back + 1), recurrent_activation="tanh", batch_size=batch_size))
 model.add(Activation("tanh"))
 model.add(Dropout(0.15))    
-model.add(LSTM(120, stateful=True, return_sequences=True, recurrent_activation="tanh", batch_size=batch_size))
+model.add(LSTM(110, stateful=True, return_sequences=True, recurrent_activation="tanh", batch_size=batch_size))
 model.add(Activation("tanh"))
 model.add(Dropout(0.15))
-model.add(LSTM(90, stateful=True, return_sequences=False, recurrent_activation="tanh", batch_size=batch_size))
+model.add(LSTM(80, stateful=True, return_sequences=False, recurrent_activation="tanh", batch_size=batch_size))
 model.add(Activation("tanh"))
-model.add(Dropout(0.1))
+model.add(Dropout(0.15))
 model.add(Dense(1))
 model.add(Activation("relu"))
 model.compile(loss='mean_squared_error', optimizer='rmsprop')
 
-train_on_one_line(model,train_LB_X[214],train_pred[214],epochs=90)
-train_on_all_lines(model,train_LB_X[3:20],train_pred[3:20],15)
-train_on_all_lines(model,train_LB_X,train_pred,6)
-train_on_one_line(model,train_LB_X[60],train_pred[60],epochs=20)
-train_on_some_lines(model,train_LB_X,train_pred,np.random.randint(0,len(train_LB_X),30),epochs=np.random.randint(15,30,10))
+train_on_one_line(model,train_LB_X[214],train_pred[214],epochs=120)
+train_on_one_line(model,train_LB_X[212],train_pred[212],epochs=120)
+train_on_one_line(model,train_LB_X[9],train_pred[9],epochs=80)
+train_on_all_lines(model,train_LB_X[3:30],train_pred[3:30],30)
+train_on_all_lines(model,train_LB_X,train_pred,17)
+train_on_some_lines(model,train_LB_X,train_pred,np.random.randint(0,len(train_LB_X),50),epochs=np.random.randint(15,35,15))
+print('saving model as h5')
+model_path = 'W:\Datasets\synth_scoring\model2.h5'
+model.save(model_path)
 print()
 print('scoring!')
 print()

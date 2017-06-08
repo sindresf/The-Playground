@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import time
+from keras.models import *
+from keras.layers import *
+
 
 
 #DEFINE STARTING VALUES
@@ -41,6 +44,11 @@ def inv_log_func(x):
     return line[x] #((1 * 350) / (np.log(1 * x)))
 
 # loop to update the data
+model_path = 'W:\Datasets\synth_scoring\model.h5'
+model = load_model(model_path)
+print('model loaded')
+
+
 count = 1
 while count < len(y):
     try:
