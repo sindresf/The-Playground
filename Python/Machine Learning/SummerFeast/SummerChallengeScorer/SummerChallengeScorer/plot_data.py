@@ -27,40 +27,56 @@ rand_seed = 21
 np.random.seed(rand_seed)
 
 #PUT IT ALL TOGETHE
-output_file("base_line_bCoef.html")
-plot = figure(width = 1400, height = 800)
-
+#output_file("all_lines_trio_plot.html")
+#plot = figure(width = 1400, height = 800)
 csv_path = 'W:\Datasets\synth_scoring\lines.csv'
 lines = np.loadtxt(csv_path)
-trios = []
-for i in range(2,len(lines),3):
-    trio = [lines[i - 2][1:],lines[i - 1][1:],lines[i][1:]]
-    trios.append(trio)
-np.random.shuffle(trios)
-for trio in trios:
-    add_trio_to_plot(plot,trio)
-    
-plot.title.text = "All lines extracted from csv file"
-plot.legend.location = "top_right"
-plot.grid.grid_line_alpha = 0
-plot.xaxis.axis_label = 'Seconds'
-plot.yaxis.axis_label = 'Score'
-plot.ygrid.band_fill_color = "olive"
-plot.ygrid.band_fill_alpha = 0.1
-show(plot)
+alcos = lines[:,0]
+lines = lines[:,1:]
 
+output_file("alco_hist_plot.html")
+hist_plt = figure(width = 1400, height = 800)
+hist,edges = np.histogram(alcos,bins=77)
+hist_plt.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:],
+        fill_color="#036564", line_color="#033649")
+show(hist_plt)
+#trios = []
+#for i in range(2,len(lines),3):
+#    trio = [lines[i - 2],lines[i - 1],lines[i]]
+#    trios.append(trio)
+#np.random.shuffle(trios)
+#for trio in trios:
+#    add_trio_to_plot(plot,trio)
+    
+#plot.title.text = "All lines extracted from csv file"
+#plot.legend.location = "top_right"
+#plot.grid.grid_line_alpha = 0
+#plot.xaxis.axis_label = 'Seconds'
+#plot.yaxis.axis_label = 'Score'
+#plot.ygrid.band_fill_color = "olive"
+#plot.ygrid.band_fill_alpha = 0.1
+#show(plot)
 def highlight_plot(plot, lines, hli=0):
     for line in lines:
-        plot.line(data_range,line[1:], alpha=0.05 + np.random.normal(0,0.18), line_width=2, color='gray')
-    plot.line(data_range,lines[hli][1:], line_width=3, color='red')
+        color = 'gray'
+        aplha = 0.05
+        if np.random.rand() < 0.45:
+            color = '#83858b'
+        if np.random.rand() < 0.2:
+            color = '#bbbdbf'
+            aplha = 0.2
+        plot.line(data_range,line, alpha=aplha + np.random.normal(0,0.13), line_width=4, color=color)
+    plot.line(data_range,lines[hli], line_width=3, color='red')
     show(plot)
-    
+
+highlight = 214
 output_file("highlight_plot.html")
 hlplot = figure(width = 1400, height = 800)
+hlplot.title.text = "highlightet alcohol lvl " + str(highlight)
 hlplot.legend.location = "top_right"
 hlplot.grid.grid_line_alpha = 0
 hlplot.xaxis.axis_label = 'Seconds'
 hlplot.yaxis.axis_label = 'Score'
 hlplot.ygrid.band_fill_color = "olive"
 hlplot.ygrid.band_fill_alpha = 0.1
-highlight_plot(hlplot,lines,np.random.randint(0,len(lines)))
+highlight_plot(hlplot,lines,highlight)

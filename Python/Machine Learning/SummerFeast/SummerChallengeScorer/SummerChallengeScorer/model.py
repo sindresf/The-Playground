@@ -72,6 +72,11 @@ testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 
 # unscalded reshape input to be [samples, time steps, features]
 utrainX = np.reshape(utrainX, (utrainX.shape[0], 1, utrainX.shape[1]))
+print(utrainX.shape)
+print(utrainX[0])
+print(utrainX[1])
+print(utrainX[2])
+yes = input('yes')
 utestX = np.reshape(utestX, (utestX.shape[0], 1, utestX.shape[1]))
 
 # create and fit the LSTM network
