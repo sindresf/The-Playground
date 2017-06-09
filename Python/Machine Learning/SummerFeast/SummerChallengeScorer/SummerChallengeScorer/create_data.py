@@ -41,15 +41,15 @@ def make_trio(a,b,c,d,ampl):
     return [a[0]] + mini,[a[1]] + mid,[a[2]] + maxi
 
 def get_az():
-    ami = np.random.uniform(low=0.4, high=0.7)
-    amd = np.random.uniform(low=0.71, high=0.95)
-    ama = np.random.uniform(low=1.0, high=1.175)
+    ami = np.random.uniform(low=0.39, high=0.7)
+    amd = np.random.uniform(low=0.71, high=0.98)
+    ama = np.random.uniform(low=0.985, high=1.205)
     return [ami,amd,ama]
 
 def get_bz():
     bmi = b * np.random.uniform(low=0.9, high=0.95)
-    bmd = b * np.random.uniform(low=0.96, high=1.05)
-    bma = b * np.random.uniform(low=1.2, high=1.67)
+    bmd = b * np.random.uniform(low=0.96, high=1.1)
+    bma = b * np.random.uniform(low=1.15, high=1.67)
     return [bmi,bmd,bma]
 
 def make_trios(count):
@@ -69,7 +69,7 @@ def make_trios(count):
     return all_lines
 
 #DEFINE STARTING VALUES
-starting_score = 350.0
+starting_score = 342.5
 
 a = 1.0
 b = 0.025
