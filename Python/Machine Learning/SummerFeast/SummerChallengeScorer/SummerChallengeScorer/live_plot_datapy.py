@@ -90,17 +90,11 @@ def plot_team_scores(teams,scores):
                text_color="navy", text_align="center", text_font_size="14pt")
     show(hist_plt)
 
-
 def alco_based_plot(plot, alco):
     bin = get_alco_bin(alco)
-    print(len(bins), bin)
-    print(bins[bin])
     bin_alcos = get_alcos_in_bin(bin)
-    print(bin_alcos)
     alco_lines = get_bin_alco_lines(bin_alcos)
-    print(alco_lines)
     score_line = get_bin_avgs(alco_lines)
-    print(score_line)
     plot_alco_lines_in_bin(plot,alco_lines,score_line)
     return score_line
     
@@ -130,6 +124,9 @@ def get_score_line_point_from_time_x(score_line, time_x):
     y = score_line[time_x]
     return y
 
+def still_going(command):
+    return command[0] != "n"
+
 
 #DEFINE STARTING VALUES
 range_start = 60
@@ -146,23 +143,15 @@ alcos = lines[:,0]
 lines = lines[:,1:]
 
 n, bins, patches = plt.hist(alcos, histedges_equalN(alcos, 45))
-#alco_bins = []
-#for i in range(len(bins)):
-#    binalcs = get_alcos_in_bin(i))
-#    alco_bins.append(binalcs)
 plot_file_name = "scoring_and_final_score_team_"
 
 team = ""
 
+
 #PUT IT ALL TOGETHER
-command = "letsgo!"
-
-def still_going(command):
-    return command[0] != "n"
-
 scores = []
 teams = []
-
+command = "letsgo!"
 while still_going(command):
     team_name = input('team:')
     teams.append(team_name)
@@ -184,4 +173,5 @@ while still_going(command):
     show(team_plot)
     command = input('moar?')
 
+#ROUND IT UP AND DECLARE WINNER!
 plot_team_scores(teams,scores)
