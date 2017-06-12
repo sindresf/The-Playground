@@ -111,7 +111,7 @@ def get_plot(teamNo, alco):
     return plot
 
 def get_time_x(sec,team_count):
-    scale = 7 - team_count
+    scale = (9 - team_count) * 0.775
     time_taken = np.round((sec * scale) / step)
     x = min(int(time_taken), len(data_range) - 1)
     return x
@@ -151,6 +151,7 @@ team = ""
 #PUT IT ALL TOGETHER
 scores = []
 teams = []
+times = []
 command = "letsgo!"
 while still_going(command):
     team_name = input('team:')
@@ -158,13 +159,13 @@ while still_going(command):
     team_alcos = input('alcos:')
     team_alcos = np.array(team_alcos.split('|'))
     team_alcos = team_alcos.astype(np.float)
+    team_count = len(team_alcos)
     alco = np.mean(team_alcos)
     team_plot = get_plot(team_name,alco)
     score_line = alco_based_plot(team_plot,alco)
     show(team_plot)
-    team_count = input('member count:')
-    team_count = int(team_count)
     time = int(input('time:'))
+    times.append(time)
     x = get_time_x(time, team_count)
     y = get_score_line_point_from_time_x(score_line, x)
     scores.append(y)
@@ -175,3 +176,5 @@ while still_going(command):
 
 #ROUND IT UP AND DECLARE WINNER!
 plot_team_scores(teams,scores)
+for i in range(len(teams)):
+    print(str(teams[i]) + ", " + str(times[i]))
