@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>4335ef41-3f60-4298-b693-adf9a805f0ae</ProjectGuid>
+    <ProjectGuid>a5e81723-722b-4215-8b86-5052d5b8556d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Zillo_Price.py</StartupFile>
+    <StartupFile>dev_test_script.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Zillo-Price</Name>
-    <RootNamespace>Zillo-Price</RootNamespace>
+    <Name>LSTM Music Visualizer</Name>
+    <RootNamespace>LSTM Music Visualizer</RootNamespace>
     <InterpreterId>Global|ContinuumAnalytics|Anaconda36-64</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -22,22 +22,42 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnalVid_tuning.py">
+    <Compile Include="dev_test_script.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="liteGBM.py">
+    <Compile Include="graphics_module\initialization.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="xgboost_base.py">
+    <Compile Include="graphics_module\objects.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="xgboost_params_optimizer.py">
+    <Compile Include="graphics_module\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Zillo_Price.py" />
+    <Compile Include="LSTM_module\interface.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LSTM_module\config_build.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LSTM_module\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LSTM_Music_Visualizer.py" />
+    <Compile Include="music_module\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda36-64" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="config_structure_dev.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="graphics_module\" />
+    <Folder Include="LSTM_module\" />
+    <Folder Include="music_module\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
