@@ -16,13 +16,15 @@ from graphics_module import *
 #       - with point color for tracking
 #   a graphics module
 #       - with interpolation and not
+#       - try to construct as much of it in a generic way so I can use the
+#         module all over
 #   o-oh
 #   need a music (midi?) file interptreter module
 #       - with parameterized frequency (or whatever) variable stuff
 #   combiner for the "random training" of the LSTM and the noise of the
 #   predicts with the music analyzer
 #
-#   try to get into proper testing?  probably should
+#   try to get into proper testing?  probably should, meh though
 ##
 
 #

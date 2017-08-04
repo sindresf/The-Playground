@@ -31,6 +31,9 @@
     <Compile Include="graphics_module\objects.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="graphics_module\visuals.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="graphics_module\__init__.py">
       <SubType>Code</SubType>
     </Compile>
