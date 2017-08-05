@@ -1,0 +1,44 @@
+{
+	"config": {
+		"display_graphics": true,
+		"random_seed": 21,
+		"opt": {
+			"nothing": 0
+		}
+	},
+
+	"graphics": {
+		"screen": {
+			"height": 1200,
+			"width": 800,
+			"fps": 60
+		},
+		"color_scheme": "b&w",
+		"particle_amount": 2500,
+		"init_distro": "uniform",
+		"init_particle_size": 2.0,
+		"opt": {
+			"init_distro_center": {
+				"x": 20,
+				"y": 20
+			}
+		}
+	},
+
+	"lstm": {
+		"input_size": 2,
+		"layer_count": 3,
+		"layer_sizes": [ 40, 50, 20 ],
+		"output_size": 2,
+		"opt": {
+			"nothing": 0
+		}
+	},
+
+	"music": {
+		"tempo": 128,
+		"opt": {
+			"nothing": 0
+		}
+	}
+}

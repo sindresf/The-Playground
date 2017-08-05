@@ -22,6 +22,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="config_parse\config_structs.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="config_parse\parse.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="config_parse\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="dev_test_script.py">
       <SubType>Code</SubType>
     </Compile>
@@ -55,9 +64,10 @@
     <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda36-64" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config_structure_dev.txt" />
+    <Content Include="config.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="config_parse\" />
     <Folder Include="graphics_module\" />
     <Folder Include="LSTM_module\" />
     <Folder Include="music_module\" />

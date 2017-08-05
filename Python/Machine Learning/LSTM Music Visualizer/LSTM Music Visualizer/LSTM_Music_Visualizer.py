@@ -1,6 +1,7 @@
 from LSTM_module import *
 from music_module import *
 from graphics_module import *
+from config_parse.parse import parse_config
 #
 ## PLAN
 #
@@ -61,8 +62,17 @@ from graphics_module import *
 #  and saves it as a movie (sound not included, more like a gif)
 #  in high quality, and good framerate (youtube awesomeness standard)
 #
-if _name_ == "__main__":
-    lol = "lol"
+if _name_ == "__main__": #TODO take in config file as command arg
+    config_file = 'C:\\Users\\sindr\\Source\\Repos\\The-Playground\\Python\\Machine Learning\\LSTM Music Visualizer\\LSTM Music Visualizer\\config.json'
+    config, graphics_config, LSTM_config, music_config = parse_config(config_file)
+
+    #TODO now that the configs are "ready" the inits will be like:
+    #program = All_This(config)
+    # graphics = Graphics(graphics_config)
+    # lstm = LSTM(lstm_config)
+    # music = Music(music_config)
+    #and let it all cascade from there
+
     #so even for MneVP this goes:
     #load config(path) <- should be command line argument, and the only argument, even "show progress" should be in the config
     #parse config (don't know if this is needed with yaml/json as much?
