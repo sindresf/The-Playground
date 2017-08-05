@@ -1,5 +1,5 @@
 {
-	"config": {
+	"program": {
 		"display_graphics": true,
 		"random_seed": 21,
 		"opt": {

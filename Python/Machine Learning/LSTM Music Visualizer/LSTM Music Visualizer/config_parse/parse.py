@@ -1,11 +1,11 @@
 import json
-from config_parse.config_structs import *
+from config_parse.config_structs import Config_struct
 
 def parse_config(file):
     js_config = None
     with open(file) as json_data:
         js_config = json.load(json_data)
-    config_structs = [Config(),Graphics_config(),LSTM_config(),Music_config()]
+    config_structs = [Config_struct("program"),Config_struct("graphics"),Config_struct("lstm"),Config_struct("music")]
     for struct in config_structs:
         __register_settings_to(struct,js_config[struct.name])
     return config_structs
