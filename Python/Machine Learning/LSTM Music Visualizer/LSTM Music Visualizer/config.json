@@ -2,6 +2,7 @@
 	"program": {
 		"display_graphics": true,
 		"random_seed": 21,
+		"particle_influencer": "network",
 		"opt": {
 			"nothing": 0
 		}
@@ -9,30 +10,45 @@
 
 	"graphics": {
 		"screen": {
-			"height": 1200,
-			"width": 800,
+			"height": 1080,
+			"width": 1920,
 			"fps": 60
 		},
 		"key_config": {
 			"reset": "R",
-			"pause": "P"
+			"pause": "P",
+			"any_key": "|",
+			"the_rest": "are all keys"
 		},
 		"color_scheme": "b&w",
 		"particle_amount": 2500,
 		"init_distro": "uniform",
 		"init_particle_size": 2.0,
+		"display_text_overlay": true,
 		"opt": {
 			"init_distro_center": {
 				"x": 20,
 				"y": 20
+			},
+			"text_overlay": {
+				"font": "monospace",
+				"font_size": 18,
+				"position": {
+					"x": 10,
+					"y": 10,
+					"x_anchor": "left",
+					"y_anchor": "bottom"
+				}
 			}
 		}
 	},
 
-	"lstm": {
+	"network": {
+		"type": "lstm",
 		"input_size": 2,
 		"layer_count": 3,
 		"layer_sizes": [ 40, 50, 20 ],
+		"layer_activations": [ "tanh", "relu", "relu" ],
 		"output_size": 2,
 		"opt": {
 			"nothing": 0

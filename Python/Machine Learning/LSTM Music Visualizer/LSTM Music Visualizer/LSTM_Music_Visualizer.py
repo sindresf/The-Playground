@@ -1,7 +1,7 @@
-from LSTM_module import *
+from ml_module import *
 from music_module import *
 from graphics_module import *
-from config_parse.parse import parse_config
+from parse_module.parse import parse_config
 #
 ## PLAN
 #

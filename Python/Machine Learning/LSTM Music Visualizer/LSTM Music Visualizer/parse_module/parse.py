@@ -1,5 +1,5 @@
 import json
-from config_parse.config_structs import *
+from parse_module.config_structs import *
 
 def parse_config(file=None, files=None):
     if file is not None: return __parse_config_file(file)

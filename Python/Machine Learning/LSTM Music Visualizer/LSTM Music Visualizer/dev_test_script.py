@@ -1,11 +1,12 @@
-from config_parse.parse import parse_config
+from parse_module.parse import parse_config
 from timeit import default_timer as timer
 from pyglet import window
 from graphics_module.visuals import *
 import numpy as np
+
 config_file = 'C:\\Users\\sindr\\Source\\Repos\\The-Playground\\Python\\Machine Learning\\LSTM Music Visualizer\\LSTM Music Visualizer\\config.json'
 start = timer()
-configs = parse_config(config_file)
+configs = parse_config(config_file) 
 print()
 end = timer()
 elapsed = round((end - start) * 1000,3)

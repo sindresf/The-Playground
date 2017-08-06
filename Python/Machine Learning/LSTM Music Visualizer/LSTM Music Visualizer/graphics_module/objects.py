@@ -1,17 +1,5 @@
 import numpy as np
 
-class Screen(object):
-    def __init__(self,height=400,width=400):
-        self.height = height
-        self.width = width
-        self.midPoint = Point(x=int(self.width / 2),y=int(self.height / 2))
-
-    def get_normalized_coords(self, point):
-        return [point.x / self.width, point.y / self.height]
-
-    def get_scaled_up_coords(self,point):
-        return Point(x=int(point[0] * self.width),y=int(point[1] * self.height))
-
 class Point(object):
     def __init__(self,x=0,y=0):
         self.x = x
@@ -126,7 +114,7 @@ class Color(object):
     def __hash__(self):
         return hash((self.r, self.g,self.b,self.alpha))
 
-class Pixel(object):
+class Particle(object):
     def __init__(self,point=Point(),color=Color(),velocity=None):
         self.point = point
         self.color = color

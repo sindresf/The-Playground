@@ -1,8 +1,7 @@
-from graphics_module.objects import Pixel
-from graphics_module.objects import Point
+from graphics_module.objects import *
 import numpy as np
 import pyglet
-from pyglet.gl import *
+from pyglet.gl import * #TODO this can all be cleaned up after it's working
 from pyglet import gl
 from pyglet.window import key
 from pyglet.window import mouse
@@ -31,7 +30,7 @@ class Window(window.Window): #TODO connect any variables to config or Pixel conf
     def set_line_width(self, width=3.0):
         gl.glLineWidth(width)
 
-    def set_point_size(self,size=1.0):
+    def set_point_size(self,size=1.7):
         gl.glPointSize(size)
 
     def screen_to(self,vizu, p): #TODO to be a pixel thing, when it is all incorporated properly, or delegate
@@ -72,8 +71,10 @@ class Window(window.Window): #TODO connect any variables to config or Pixel conf
         self.particle_batch = graphics.Batch()
 
         for p in particles:
-            c = np.random.randint(126, 256)
-            new_p = self.particle_batch.add(1, gl.GL_POINTS, None, ('v2f/stream', p), ('c3B', (c, c, c)))
+            r = np.random.randint(170, 256)
+            g = np.random.randint(170, 256)
+            b = np.random.randint(70, 256)
+            new_p = self.particle_batch.add(1, gl.GL_POINTS, None, ('v2f/stream', p), ('c3B', (r, g, b)))
             self.particles += [new_p]
 
     def update_particles(self, particles):
@@ -148,18 +149,18 @@ class Visuals(object):
     def __init__(self,graphics_config):
         self.graphics_config = graphics_config
         self.key_config = graphics_config.key_config
-        self.idx = 0 #config stuff AALLL CONFIG STUFF
+        self.idx = 0 #config stuff AALLL CONFIG STUFF (almost)
         self.t = 0
         self.tt = 0
         self.zoom = 80.0
         self.noisy = False
         self.clear = True
         self.window = Window(width=1280, height=720)
-        self.window.set_fps(60)
+        self.window.set_fps(60) #can call it through self.config these ones
         self.MAX_PARTICLES = 10000
         self.MAX_ADD_PARTICLES = 100
         self.GRAVITY = -100
-        self.POINTS = 500
+        self.POINTS = 2500
         self.HDIM = 4
         self.net = None
     
@@ -168,45 +169,10 @@ class Visuals(object):
         h0 = np.zeros([self.POINTS, self.HDIM])
         c0 = np.zeros([self.POINTS, self.HDIM])
         points = np.random.randn(self.POINTS, 2) * 2
-        #net = lstm.LSTMNetwork(2, HDIM, 2, 1, None, None)
+        #net = lstm.LSTMNetwork(2, HDIM, 2, 1, None, None) ## CALL BOB THE BUILDER
         self.window.set_particles(points)
 
-    def __handle_input(self): #also config?  like: reset_key: 'R'
-    #if w.mouse_pressed:
-#        for i in range(10):
-#            p = screen_to(w.mouse) + np.random.randn(1, 2) * 0.05
-                    #            points[idx] = p
-                                               #            idx += 1
-                                                                            #            if
-                                                                                                         #            idx
-                                                                                                                                      #            >=
-                                                                                                                                      #            points.shape[0]:
-#                idx = 0
-                
-#    if w.pressed(window.key.SPACE):
-#        noisy = not noisy
-        
-#    if w.pressed(window.key.C):
-#        clear = not clear
-                
-#    if w.pressed(window.key.R):
-#        init()
-        
-#    if w.pressed(window.key.H):
-#        h0 = np.random.randn(POINTS, HDIM)
-#        c0 = np.random.randn(POINTS, HDIM)
-        
-#    if w.pressed(window.key.UP):
-#        HDIM *= 2
-#        init()
-#        w.clear()
-        
-#    if w.pressed(window.key.DOWN):
-#        HDIM /= 2
-#        init()
-#        w.clear()
-        
-#    w.reset_keys()
+    def __handle_input(self): 
         if 1 < 2:
             return False
 
@@ -218,7 +184,9 @@ class Visuals(object):
 
             self.__handle_input()
         
-            #self.window.update_particles(self.window.to_screen(self,[1,2]))
+            points = np.random.randn(self.POINTS, 2) * 2
+            self.window.set_particles(points)
+            self.window.update_particles(self.window.to_screen(self,points))
 
             if self.window.update() == False:
                 break

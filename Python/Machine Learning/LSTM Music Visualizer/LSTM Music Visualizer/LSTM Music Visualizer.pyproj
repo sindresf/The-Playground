@@ -22,13 +22,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="config_parse\config_structs.py">
+    <Compile Include="parse_module\config_structs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="config_parse\parse.py">
+    <Compile Include="parse_module\parse.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="config_parse\__init__.py">
+    <Compile Include="parse_module\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="dev_test_script.py">
@@ -46,13 +46,13 @@
     <Compile Include="graphics_module\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LSTM_module\interface.py">
+    <Compile Include="ml_module\interface.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LSTM_module\config_build.py">
+    <Compile Include="ml_module\config_build.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LSTM_module\__init__.py">
+    <Compile Include="ml_module\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LSTM_Music_Visualizer.py" />
@@ -67,9 +67,9 @@
     <Content Include="config.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="config_parse\" />
+    <Folder Include="ml_module\" />
+    <Folder Include="parse_module\" />
     <Folder Include="graphics_module\" />
-    <Folder Include="LSTM_module\" />
     <Folder Include="music_module\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
