@@ -13,6 +13,10 @@
 			"width": 800,
 			"fps": 60
 		},
+		"key_config": {
+			"reset": "R",
+			"pause": "P"
+		},
 		"color_scheme": "b&w",
 		"particle_amount": 2500,
 		"init_distro": "uniform",

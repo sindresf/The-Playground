@@ -1,19 +1,34 @@
 import json
-from config_parse.config_structs import Config_struct
+from config_parse.config_structs import *
 
-def parse_config(file):
+def parse_config(file=None, files=None):
+    if file is not None: return __parse_config_file(file)
+    if files is not None: return __parse_config_files(files)
+
+def __parse_config_file(file):
     js_config = None
+    configs = Configs()
     with open(file) as json_data:
         js_config = json.load(json_data)
+    for config_module_name in js_config:
+        conf_struct = Config_struct(config_module_name)
+        __register_settings_to(conf_struct,js_config[config_module_name])
+        configs.add_config_module(conf_struct)
+    return configs
 
-    config_structs = [Config_struct("program"), #TODO could make this even better by
-                      Config_struct("graphics"),# first passing name in to struct
-                      Config_struct("lstm"),    # from the json config file
-                      Config_struct("music")]   # and then doing the rest
-                                                # instead of this other way round
-    for struct in config_structs:               # since the return makes it so that the order has to be figured out anyways
-        __register_settings_to(struct,js_config[struct.name])
-    return config_structs
+def __parse_config_files(files):
+    js_config = None
+    configs = Configs()
+    js_configs = []
+    with open(file) as json_data:
+        js_configs.append(json.load(json_data))
+    for js_config in js_configs:
+        for config_module_name in js_config:
+            conf_struct = Config_struct(config_module_name)
+            __register_settings_to(conf_struct,js_config[config_module_name])
+            configs.add_config_module(conf_struct)
+    return configs
+
 
 def __register_settings_to(struct, settings):
     for setting in settings:

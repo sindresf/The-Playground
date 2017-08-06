@@ -14,7 +14,7 @@ from pyglet import window
 class Window(window.Window): #TODO connect any variables to config or Pixel config, as well as Point and
                                     #Color and Pixel classes
     def __init__(self, *args, **Kwargs):
-        super(Window, self).__init__(*args,**Kwargs)
+        super().__init__(*args,**Kwargs)
         self.clock = clock.get_default()
         self.reset_keys()
         self.mouse_pressed = False
@@ -24,11 +24,21 @@ class Window(window.Window): #TODO connect any variables to config or Pixel conf
         self.set_point_size()
         self.particle_batch = None
 
+    
+    def set_fps(self, fps=60):
+        self.clock.set_fps_limit(fps)
+
     def set_line_width(self, width=3.0):
         gl.glLineWidth(width)
 
     def set_point_size(self,size=1.0):
-        gl.glPointsize(size)
+        gl.glPointSize(size)
+
+    def screen_to(self,vizu, p): #TODO to be a pixel thing, when it is all incorporated properly, or delegate
+        return (np.array(p) - (self.width / 2, self.height / 2)) / vizu.zoom
+
+    def to_screen(self,vizu, p): #TODO to be a pixel thing, when it is all incorporated properly, or delegate
+        return p * vizu.zoom + (self.width / 2, self.height / 2)
 
     def reset_keys(self):
         self.pressed_keys = {}
@@ -63,7 +73,7 @@ class Window(window.Window): #TODO connect any variables to config or Pixel conf
 
         for p in particles:
             c = np.random.randint(126, 256)
-            new_p = self.particle_batch.add(1, gl.GL_POINTS, None, ('v2f/stream', p), ('c38', (c, c, c)))
+            new_p = self.particle_batch.add(1, gl.GL_POINTS, None, ('v2f/stream', p), ('c3B', (c, c, c)))
             self.particles += [new_p]
 
     def update_particles(self, particles):
@@ -134,47 +144,84 @@ class Window(window.Window): #TODO connect any variables to config or Pixel conf
         self.flip()
         return True
 
-##All this from config and stuff
-MAX_PARTICLES = 10000
-MAX_ADD_PARTICLES = 100
-GRAVITY = -100
-w = Window(width=1280, height=720)
-w.set_fps(60)
+class Visuals(object):
+    def __init__(self,graphics_config):
+        self.graphics_config = graphics_config
+        self.key_config = graphics_config.key_config
+        self.idx = 0 #config stuff AALLL CONFIG STUFF
+        self.t = 0
+        self.tt = 0
+        self.zoom = 80.0
+        self.noisy = False
+        self.clear = True
+        self.window = Window(width=1280, height=720)
+        self.window.set_fps(60)
+        self.MAX_PARTICLES = 10000
+        self.MAX_ADD_PARTICLES = 100
+        self.GRAVITY = -100
+        self.POINTS = 500
+        self.HDIM = 4
+        self.net = None
+    
+    def init(self):
+        global points, net, h0, c0
+        h0 = np.zeros([self.POINTS, self.HDIM])
+        c0 = np.zeros([self.POINTS, self.HDIM])
+        points = np.random.randn(self.POINTS, 2) * 2
+        #net = lstm.LSTMNetwork(2, HDIM, 2, 1, None, None)
+        self.window.set_particles(points)
 
-POINTS = 500
+    def __handle_input(self): #also config?  like: reset_key: 'R'
+    #if w.mouse_pressed:
+#        for i in range(10):
+#            p = screen_to(w.mouse) + np.random.randn(1, 2) * 0.05
+                    #            points[idx] = p
+                                               #            idx += 1
+                                                                            #            if
+                                                                                                         #            idx
+                                                                                                                                      #            >=
+                                                                                                                                      #            points.shape[0]:
+#                idx = 0
+                
+#    if w.pressed(window.key.SPACE):
+#        noisy = not noisy
+        
+#    if w.pressed(window.key.C):
+#        clear = not clear
+                
+#    if w.pressed(window.key.R):
+#        init()
+        
+#    if w.pressed(window.key.H):
+#        h0 = np.random.randn(POINTS, HDIM)
+#        c0 = np.random.randn(POINTS, HDIM)
+        
+#    if w.pressed(window.key.UP):
+#        HDIM *= 2
+#        init()
+#        w.clear()
+        
+#    if w.pressed(window.key.DOWN):
+#        HDIM /= 2
+#        init()
+#        w.clear()
+        
+#    w.reset_keys()
+        if 1 < 2:
+            return False
 
-HDIM = 4
+    def run(self):
+        while True:
+            self.window.clock.tick()
+            if self.clear:
+                self.window.clear()
 
-net = None
+            self.__handle_input()
+        
+            #self.window.update_particles(self.window.to_screen(self,[1,2]))
 
-def init():
-    global points, net, h0, c0
-    h0 = np.zeros([POINTS, HDIM])
-    c0 = np.zeros([POINTS, HDIM])
-    points = np.random.randn(POINTS, 2) * 2
-    net = lstm.LSTMNetwork(2, HDIM, 2, 1, None, None)
-
-init()
-idx = 0
-t = 0
-tt = 0
-zoom = 80.0
-noisy = False
-clear = True
-
-def screen_to(p):
-    return (np.array(p) - (w.width / 2, w.height / 2)) / zoom
-
-def to_screen(p):
-    return p * zoom + (w.width / 2, w.height / 2)
-
-
-#functions for interacting with vizuzuz
-def add_pixels():
-    pass
-
-def update_pixels():
-    pass
-
-def update_stats(dt):
-    pass
+            if self.window.update() == False:
+                break
+    
+        self.window.close()
+        print("visuals shut down.")

@@ -10,5 +10,20 @@ class Config_struct(object):
         for key in opts:
             setattr(self.opt, key, opts[key])
 
-    def __str__(self): #TODO this needs a getattrib run through or something for print
-        return '\n\topt:' + str(self.opt) + '\n'
+    def __str__(self):
+        #TODO "stringbuilder" indent tree of attributes and values
+        #print outside of debugging here would be a command line --help
+        #or "H" pressed for help
+        #type of thing
+        return self.name
+
+class Configs(object):
+    def __init__(self):
+        self.name = "config module holder"
+
+    def add_config_module(self, config_struct):
+        setattr(self, config_struct.name, config_struct)
+
+    def __str__(self):
+        #TODO calles each "getattrib" string representation
+        return self.name
