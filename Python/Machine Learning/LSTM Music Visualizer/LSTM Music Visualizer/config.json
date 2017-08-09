@@ -2,6 +2,9 @@
 	"program": {
 		"display_graphics": true,
 		"random_seed": 21,
+		"max_particles": 10000,
+		"max_add_particles": 150,
+		"init_particle_amount": 2000,
 		"particle_influencer": "network",
 		"opt": {
 			"nothing": 0
@@ -9,20 +12,23 @@
 	},
 
 	"graphics": {
-		"screen": {
-			"height": 1080,
+		"window": {
 			"width": 1920,
+			"height": 1080,
 			"fps": 60
 		},
-		"key_config": {
+		"key_bindings": {
 			"reset": "R",
 			"pause": "P",
 			"any_key": "|",
 			"the_rest": "are all keys"
 		},
+		"zoom": 80,
+		"noisy": false,
+		"clear": true,
 		"color_scheme": "b&w",
-		"particle_amount": 2500,
 		"init_distro": "uniform",
+		"init_line_width": 3.0,
 		"init_particle_size": 2.0,
 		"display_text_overlay": true,
 		"opt": {

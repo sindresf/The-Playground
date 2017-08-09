@@ -15,7 +15,7 @@ print("parsing config took: %s ms\n" % elapsed)
 
 #TEST Vizual movement shifting (not "go to this point", but noise influence typ
 #thing
-v = Visuals(configs.graphics)
+v = Visuals(configs.graphics,configs.program)
 v.init()
 v.run()
 

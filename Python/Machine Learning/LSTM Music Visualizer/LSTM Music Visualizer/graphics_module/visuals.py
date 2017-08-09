@@ -10,21 +10,20 @@ from pyglet import clock
 from pyglet import font
 from pyglet import window
 
-class Window(window.Window): #TODO connect any variables to config or Pixel config, as well as Point and
-                                    #Color and Pixel classes
-    def __init__(self, *args, **Kwargs):
-        super().__init__(*args,**Kwargs)
+class Window(window.Window):
+    def __init__(self,window_config=None):
+        super().__init__(width=window_config['width'], height=window_config['height'])
+        self.__config = window_config
         self.clock = clock.get_default()
+        self._set_fps(window_config['fps'])
         self.reset_keys()
         self.mouse_pressed = False
         self.mouse = Point()
         self.label = None
-        self.set_line_width()
-        self.set_point_size()
         self.particle_batch = None
 
     
-    def set_fps(self, fps=60):
+    def _set_fps(self, fps=60):
         self.clock.set_fps_limit(fps)
 
     def set_line_width(self, width=3.0):
@@ -33,11 +32,11 @@ class Window(window.Window): #TODO connect any variables to config or Pixel conf
     def set_point_size(self,size=1.7):
         gl.glPointSize(size)
 
-    def screen_to(self,vizu, p): #TODO to be a pixel thing, when it is all incorporated properly, or delegate
-        return (np.array(p) - (self.width / 2, self.height / 2)) / vizu.zoom
+    def screen_to(self,zoom_lvl, p): #p here is numpy arrays.  TODO make "Point numpy arrays"
+        return (np.array(p.gl_repr()) - (self.width / 2, self.height / 2)) / zoom_lvl
 
-    def to_screen(self,vizu, p): #TODO to be a pixel thing, when it is all incorporated properly, or delegate
-        return p * vizu.zoom + (self.width / 2, self.height / 2)
+    def to_screen(self,zoom_lvl, p): #p here is numpy arrays.  TODO make "Point numpy arrays"
+        return p * zoom_lvl + (self.width / 2.0, self.height / 2.0)
 
     def reset_keys(self):
         self.pressed_keys = {}
@@ -146,30 +145,33 @@ class Window(window.Window): #TODO connect any variables to config or Pixel conf
         return True
 
 class Visuals(object):
-    def __init__(self,graphics_config):
-        self.graphics_config = graphics_config
-        self.key_config = graphics_config.key_config
-        self.idx = 0 #config stuff AALLL CONFIG STUFF (almost)
-        self.t = 0
-        self.tt = 0
-        self.zoom = 80.0
-        self.noisy = False
-        self.clear = True
-        self.window = Window(width=1280, height=720)
-        self.window.set_fps(60) #can call it through self.config these ones
-        self.MAX_PARTICLES = 10000
-        self.MAX_ADD_PARTICLES = 100
-        self.GRAVITY = -100
-        self.POINTS = 2500
-        self.HDIM = 4
-        self.net = None
+    def __init__(self, conf, prog_conf):
+        self.graphics_config = conf
+        self.program_config = prog_conf #just remove this if I end up don't needing it
+        self.key_config = conf.key_bindings
+        self.zoom = conf.zoom
+        self.noisy = conf.noisy
+        self.clear = conf.clear
+        self.window = Window(window_config=conf.window)
+        self.window.set_line_width(conf.init_line_width)
+        self.window.set_point_size(conf.init_particle_size)
+        self.MAX_PARTICLES = prog_conf.max_particles
+        self.MAX_ADD_PARTICLES = prog_conf.max_add_particles
+        self.POINTS = prog_conf.init_particle_amount
+        self.GRAVITY = -100 #TODO learn wtf this is, dunno if it's like a necessary constant or a config
+        self.HDIM = 4 # this too
+        self.idx = 0# this too
+        self.t = 0# this too
+        self.tt = 0# this too
     
-    def init(self):
+    def init(self, influencer=None):
         global points, net, h0, c0
         h0 = np.zeros([self.POINTS, self.HDIM])
         c0 = np.zeros([self.POINTS, self.HDIM])
         points = np.random.randn(self.POINTS, 2) * 2
-        #net = lstm.LSTMNetwork(2, HDIM, 2, 1, None, None) ## CALL BOB THE BUILDER
+        if influencer is not None: self.influencer = influencer
+        #else: self.influencer = lambda : return random through exception here,
+        #cuz even "complete random" should be "built"
         self.window.set_particles(points)
 
     def __handle_input(self): 
@@ -186,7 +188,7 @@ class Visuals(object):
         
             points = np.random.randn(self.POINTS, 2) * 2
             self.window.set_particles(points)
-            self.window.update_particles(self.window.to_screen(self,points))
+            self.window.update_particles(self.window.to_screen(self.zoom,points))
 
             if self.window.update() == False:
                 break

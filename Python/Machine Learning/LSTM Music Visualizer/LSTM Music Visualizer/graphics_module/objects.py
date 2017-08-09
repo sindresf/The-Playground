@@ -5,8 +5,8 @@ class Point(object):
         self.x = x
         self.y = y
 
-    def get_normalized_coords(self,screen):
-        return (self.x / screen.width, self.y / screen.height)
+    def get_display_coords(self, zoom,width,height):
+        return self.gl_repr() * zoom + (width / 2.0, height / 2.0)
 
     def rand_shift_position(self,screen,x=True,y=True,x_shift_max=16,y_shift_max=16,dist="uniform"):
         if x: self.x = max(0,min(screen.width, self.x + np.random.randint(x_shift_max)))
