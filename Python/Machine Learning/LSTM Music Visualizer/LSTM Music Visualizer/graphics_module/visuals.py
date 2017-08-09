@@ -163,6 +163,7 @@ class Visuals(object):
         self.idx = 0# this too
         self.t = 0# this too
         self.tt = 0# this too
+        self.inflfl = 2.5
     
     def init(self, influencer=None):
         global points, net, h0, c0
@@ -178,6 +179,11 @@ class Visuals(object):
         if 1 < 2:
             return False
 
+    def sizer_influencer(self, points):
+        if self.inflfl > 0.2: self.inflfl -= 0.075
+        else: self.inflfl = 2.75
+        return points * self.inflfl
+
     def run(self):
         while True:
             self.window.clock.tick()
@@ -186,7 +192,9 @@ class Visuals(object):
 
             self.__handle_input()
         
-            points = np.random.randn(self.POINTS, 2) * 2
+            points = np.random.randn(self.POINTS, 2)
+            points = self.sizer_influencer(points) #this is the magic step TODO a "callable" type hint argument, making this a
+                                                   #higher order function
             self.window.set_particles(points)
             self.window.update_particles(self.window.to_screen(self.zoom,points))
 
