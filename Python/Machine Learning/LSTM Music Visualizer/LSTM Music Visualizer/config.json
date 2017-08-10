@@ -5,7 +5,7 @@
 		"random_seed": 21,
 		"max_particles": 4000,
 		"max_add_particles": 120,
-		"init_particle_amount": 1000,
+		"init_particle_amount": 800,
 		"particle_influencer": "network",
 		"opt": {
 			"nothing": 0
@@ -27,12 +27,18 @@
 		"zoom": 80,
 		"noisy": false,
 		"clear": true,
+		"trail": false,
 		"color_scheme": "b&w",
 		"init_distro": "uniform",
 		"init_line_width": 3.0,
-		"init_particle_size": 2.0,
+		"init_particle_size": 4.0,
 		"display_text_overlay": true,
 		"opt": {
+			"trail_length": 8,
+			"init_color_range": {
+				"min": 70,
+				"max": 240
+			},
 			"init_distro_center": {
 				"x": 20,
 				"y": 20

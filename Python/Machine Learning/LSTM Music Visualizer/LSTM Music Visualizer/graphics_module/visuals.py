@@ -77,8 +77,8 @@ class Window(window.Window):
         self.particles = []
         self.particle_batch = graphics.Batch()
 
-        for i, p in enumerate(points):
-            new_p = self.particle_batch.add(1, gl.GL_POINTS, None, ('v2f/stream', p), ('c3B', colors[i]))
+        for point, color in zip(points,colors):
+            new_p = self.particle_batch.add(1, gl.GL_POINTS, None, ('v2f/stream', point), ('c3B', color))
             self.particles += [new_p]
 
     def update_particles(self, particles):
@@ -117,7 +117,7 @@ class Window(window.Window):
         if tf_count == 0: return
         graphics.draw(tf_count, gl.GL_TRIANGLES,
                              ('v2f', tf_vertices),
-                             ('c4f', [0.5 * color[0], 0.5 * color[1], 0.5 * color[2], 0.5] * (tf_count)))
+                             ('c4f', color * (tf_count)))
 
     def __get_rect_vertices(self,x,y,w,h):
         return ((x, y), (x + w, y), (x + w, y + h), (x, y + h), (x, y))
@@ -161,8 +161,9 @@ class Visuals(object):
         self.zoom = conf.zoom
         self.noisy = conf.noisy
         self.clear = conf.clear
+        self.trailing = conf.trail
         self.window = Window(window_config=conf.window,fullscreen=prog_conf.fullscreen)
-        text_config = conf.opt['text_overlay']
+        text_config = conf.opt.text_overlay
         if conf.display_text_overlay:
             self.window.label = pyglet.text.Label(font_name=text_config['font'],
                                                     font_size=text_config['font_size'],
@@ -183,37 +184,37 @@ class Visuals(object):
         self.inflfl = 2.5
         self.init()
     
-    def init(self, influencer=None):
-        global points,colors, net, h0, c0
-        h0 = np.zeros([self.POINTS, self.HDIM])
-        c0 = np.zeros([self.POINTS, self.HDIM])
+    def init(self):
+        global points,colors
         points = np.random.randn(self.POINTS, 2) * 2
-        colors = np.asarray([(np.random.randint(120, 240),np.random.randint(120, 240),np.random.randint(120, 240)) for x in range(len(points))])
-        if influencer is not None: self.influencer = influencer
-        #else: self.influencer = lambda : return random through exception here,
-        #cuz even "complete random" should be "built"
-        self.window.set_particles(points,colors)
+        min = self.graphics_config.opt.init_color_range['min']
+        max = self.graphics_config.opt.init_color_range['max'] + 1
+        colors = np.asarray([np.random.randint(min, max,3) for x in range(self.POINTS)])
 
     def __handle_input(self): 
         if 1 < 2:
             return False
 
-    def sizer_influencer(self):
-        global points
-        points = np.random.randn(self.POINTS, 2)
-        y_thing = 1.3
-        if self.inflfl > 0.2: self.inflfl -= 0.075
-        else:
-            self.inflfl = 2.75
-            y_thing = 0.2
-        points[:,0] *= self.inflfl
-        points[:,1] *= self.inflfl * y_thing
-
     def move_around_influencer(self):
         global points
-        move = lambda arr: np.asarray([x + (0.06 - np.random.rand() * 0.12) for x in arr])
-        points = np.apply_along_axis(move,0,points)
-        points = np.apply_along_axis(move,1,points)
+        points = np.apply_along_axis(self.__move,1,points)
+
+    def __move(self, arr):
+        rand = np.random.rand(2)
+        return np.asarray([x + (0.03 - rand[r] * 0.06) for r,x in enumerate(arr)])
+
+    def __color_shift(self,c):
+        rands = np.random.randint(-4,5,3)
+        color_yeah = lambda c,r: max(0, min(255, c + r))
+        r = color_yeah(c[0],rands[0])
+        g = color_yeah(c[1],rands[1])
+        b = color_yeah(c[2],rands[2])
+        return np.asarray((r,g,b))
+
+    def move_and_shift_around_influencer(self):
+        global points, colors
+        points = np.apply_along_axis(self.__move,1,points)
+        colors = np.apply_along_axis(self.__color_shift,1,colors)
 
 
     def get_influencer_info(self): #TODO make into a "Influencer interface function call" or program level call?
@@ -222,22 +223,28 @@ class Visuals(object):
 
     def run(self):
         global points, colors
-        self.clear_tick = 1
+        if self.trailing:
+            trail_points = np.copy(points)
+            trail_colors = np.copy(colors)
         while True:
             self.window.clock.tick()
-            if self.clear: #if I want a "trail" I will need a point history, not clear weirdness, OR an
-                           #alpha fill that has "decay rate"
-                            #like "if self.trail_clear"
-                            #"self.window.trail_clear" which doesn't clear, it
-                            #draws a see-through square over the whole screen
-                self.window.clear()
+            if self.clear: self.window.clear()
 
             self.__handle_input()
         
-            self.move_around_influencer() #this is the magic step TODO a "callable" type hint argument, making this a
+            self.move_and_shift_around_influencer() #this is the magic step TODO a "callable" type hint argument, making this a
                                           #higher order function
-            self.window.set_particles(points,colors)
-            self.window.update_particles(self.window.to_screen(self.zoom,points))
+            if self.trailing:
+                if len(trail_points) >= self.POINTS * self.graphics_config.opt.trail_length:
+                    trail_points = trail_points[self.POINTS:]
+                    trail_colors = trail_colors[self.POINTS:]
+                trail_points = np.append(trail_points,points,0)
+                trail_colors = np.append(trail_colors,colors,0)
+                self.window.set_particles(trail_points,trail_colors)
+                self.window.update_particles(self.window.to_screen(self.zoom,trail_points))
+            else: 
+                self.window.set_particles(points,colors)
+                self.window.update_particles(self.window.to_screen(self.zoom,points))
 
             if self.graphics_config.display_text_overlay:
                 txt = self.get_influencer_info()
@@ -245,6 +252,6 @@ class Visuals(object):
                 
             if self.window.update() == False:
                 break
-            self.clear_tick += 1
+
         self.window.close()
         print("visuals shut down.")

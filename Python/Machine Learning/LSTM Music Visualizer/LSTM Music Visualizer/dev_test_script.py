@@ -3,6 +3,7 @@ from timeit import default_timer as timer
 from pyglet import window
 from graphics_module.visuals import *
 import numpy as np
+np.random.seed(21)
 
 config_file = 'C:\\Users\\sindr\\Source\\Repos\\The-Playground\\Python\\Machine Learning\\LSTM Music Visualizer\\LSTM Music Visualizer\\config.json'
 start = timer()

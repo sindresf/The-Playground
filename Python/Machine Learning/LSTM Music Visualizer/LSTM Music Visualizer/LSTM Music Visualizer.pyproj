@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a5e81723-722b-4215-8b86-5052d5b8556d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>dev_test_script.py</StartupFile>
+    <StartupFile>LSTM_Music_Visualizer.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

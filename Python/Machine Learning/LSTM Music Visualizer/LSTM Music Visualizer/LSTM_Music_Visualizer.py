@@ -2,83 +2,42 @@ from ml_module import *
 from music_module import *
 from graphics_module import *
 from parse_module.parse import parse_config
-#
-## PLAN
-#
-#   this one does as much only "interface calls" to other things
-#   to run the visualization over and over.
-#
-#   personal standardized config file parser
-#   gonna have: a random LSTM builder (combining all the random variables and
-#   actual layers and such)
-#       - with parameters for constraining the build (and inpu output)
-#   a LSTM
-#   a pixel(point) distribution handler
-#       - with point color for tracking
-#   a graphics module
-#       - with interpolation and not
-#       - try to construct as much of it in a generic way so I can use the
-#         module all over
-#   o-oh
-#   need a music (midi?) file interptreter module
-#       - with parameterized frequency (or whatever) variable stuff
-#   combiner for the "random training" of the LSTM and the noise of the
-#   predicts with the music analyzer
-#
-#   try to get into proper testing?  probably should, meh though
-##
+from parse_module.config_structs import *
+from timeit import default_timer as timer
+import numpy as np
 
-#
-#  minimal not-even-viable product
-#
-#  parses config
-#  can make b&w
-#  and just random walks them
-#
+configs = None
 
-#
-#  minimal viable product
-#
-#  parses config
-#  can make b&w and colored pixel arrays and interpolate lines based on
-#  movement
-#  asks simple network for next position
-#  loads a music file and just does SOMETHING with it
-#
+def parse(*arg):
+    global configs
+    start = timer()
+    configs = parse_config(arg[0]) #this needs to handle plural and directory
+    np.random.seed(configs.program.random_seed)
+    print()
+    end = timer()
+    elapsed = round((end - start) * 1000,3)
+    print("parsing config took: %s ms\n" % elapsed)
 
-#
-#  AWESOME PRODUCT
-#
-#  parses config like a beautiful all-encompassing baoz
-#  can make any type of pixels, including size and interpolate lines based on
-#  movement
-#  ask whatever kind of network (LSTM OR OTHER D:!) for any kind of output
-#  can shift-train the network like a motherFokker
-#  loads a song and (probably easiest to do it through config) matches it to
-#  beat (64th note tempo for base movement maybe?)
-#  analyses song in some ways, simple is ok even for AWESOME, like just having
-#  frequency buckets
-#  and look for spikes and shift whatever based on whatever
-#  and saves it as a movie (sound not included, more like a gif)
-#  in high quality, and good framerate (youtube awesomeness standard)
-#
-if _name_ == "__main__": #TODO take in config file as command arg
+def build(): #build everything
+    global configs
+    start = timer()
+    print("building with configs: %s" % isinstance(configs, Configs))
+    end = timer()
+    elapsed = round((end - start) * 1000,3)
+    print("building took: %s ms\n" % elapsed)
+
+def run(): #run the whole thing
+    print("running program")
+
+if __name__ == "__main__": #TODO take in config file as command arg
+    program_start = timer()
     config_file = 'C:\\Users\\sindr\\Source\\Repos\\The-Playground\\Python\\Machine Learning\\LSTM Music Visualizer\\LSTM Music Visualizer\\config.json'
-    config, graphics_config, LSTM_config, music_config = parse_config(config_file)
-
-    #TODO now that the configs are "ready" the inits will be like:
-    #program = All_This(config)
-    # graphics = Graphics(graphics_config)
-    # lstm = LSTM(lstm_config)
-    # music = Music(music_config)
-    #and let it all cascade from there
-
-    #so even for MneVP this goes:
-    #load config(path) <- should be command line argument, and the only argument, even "show progress" should be in the config
-    #parse config (don't know if this is needed with yaml/json as much?
-    #(pretend to) load(music_file)
-    #(pretend to) make config.amount of networks that live for song/amount time, (with provisions for "dying vizuals")
-    #init graphics
-    #make init pixels
-    #(pretend to) make pixels move based on network
-    #(pretend to) influence network/pixel behaviour on music analysis
+    parse(config_file)
+    build()
+    setup_done = timer()
+    elapsed = round((setup_done - program_start) * 1000,3)
+    print("setup took: %s ms\n" % elapsed)
+    run()
+    program_end = timer()
+    elapsed = round((program_end - program_start) * 1000,3)
+    print("program ran for took: %s ms\n" % elapsed)
