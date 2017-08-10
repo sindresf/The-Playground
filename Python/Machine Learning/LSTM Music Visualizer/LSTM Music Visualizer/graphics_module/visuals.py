@@ -181,10 +181,8 @@ class Visuals(object):
         self.idx = 0# this too
         self.t = 0# this too
         self.tt = 0# this too
-        self.inflfl = 2.5
-        self.init()
     
-    def init(self):
+    def build(self):
         global points,colors
         points = np.random.randn(self.POINTS, 2) * 2
         min = self.graphics_config.opt.init_color_range['min']
@@ -195,33 +193,7 @@ class Visuals(object):
         if 1 < 2:
             return False
 
-    def move_around_influencer(self):
-        global points
-        points = np.apply_along_axis(self.__move,1,points)
-
-    def __move(self, arr):
-        rand = np.random.rand(2)
-        return np.asarray([x + (0.03 - rand[r] * 0.06) for r,x in enumerate(arr)])
-
-    def __color_shift(self,c):
-        rands = np.random.randint(-4,5,3)
-        color_yeah = lambda c,r: max(0, min(255, c + r))
-        r = color_yeah(c[0],rands[0])
-        g = color_yeah(c[1],rands[1])
-        b = color_yeah(c[2],rands[2])
-        return np.asarray((r,g,b))
-
-    def move_and_shift_around_influencer(self):
-        global points, colors
-        points = np.apply_along_axis(self.__move,1,points)
-        colors = np.apply_along_axis(self.__color_shift,1,colors)
-
-
-    def get_influencer_info(self): #TODO make into a "Influencer interface function call" or program level call?
-                                   #that would ask the influencer?
-        return 'Untrained LSTM fixed points and attractors. Hidden dimension: {}'.format(self.HDIM)
-
-    def run(self):
+    def run(self, influencer_function, influencer_descriptor_function):
         global points, colors
         if self.trailing:
             trail_points = np.copy(points)
@@ -232,8 +204,8 @@ class Visuals(object):
 
             self.__handle_input()
         
-            self.move_and_shift_around_influencer() #this is the magic step TODO a "callable" type hint argument, making this a
-                                          #higher order function
+            points,colors = influencer_function((points,colors))
+
             if self.trailing:
                 if len(trail_points) >= self.POINTS * self.graphics_config.opt.trail_length:
                     trail_points = trail_points[self.POINTS:]
@@ -247,7 +219,7 @@ class Visuals(object):
                 self.window.update_particles(self.window.to_screen(self.zoom,points))
 
             if self.graphics_config.display_text_overlay:
-                txt = self.get_influencer_info()
+                txt = influencer_descriptor_function()
                 self.window.draw_text(txt)
                 
             if self.window.update() == False:

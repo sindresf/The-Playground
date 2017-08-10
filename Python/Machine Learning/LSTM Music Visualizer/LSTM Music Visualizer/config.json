@@ -56,8 +56,8 @@
 		}
 	},
 
-	"network": {
-		"type": "lstm",
+	"influencer": {
+		"type": "random_move_and_shift",
 		"input_size": 2,
 		"layer_count": 3,
 		"layer_sizes": [ 40, 50, 20 ],

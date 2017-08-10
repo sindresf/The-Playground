@@ -22,10 +22,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="graphics_module\interface.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ml_module\Influencer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ml_module\random_walkers.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="music_module\interface.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="parse_module\config_structs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="parse_module\parse.py">
+    <Compile Include="parse_module\interface.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="parse_module\__init__.py">
@@ -47,9 +59,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ml_module\interface.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ml_module\config_build.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ml_module\__init__.py">
