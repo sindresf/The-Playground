@@ -11,11 +11,18 @@ from pyglet import font
 from pyglet import window
 
 class Window(window.Window):
-    def __init__(self,window_config=None):
-        super().__init__(width=window_config['width'], height=window_config['height'])
+    def __init__(self,window_config=None,fullscreen=False):
+        super().__init__(width=window_config['width'], height=window_config['height'],fullscreen=fullscreen, screen = window.get_platform().get_default_display().get_screens()[1])
         self.__config = window_config
         self.clock = clock.get_default()
+        self.fps_display = pyglet.window.FPSDisplay(self)
+        self.fps_display.label = pyglet.text.Label(font_size=18,
+                                                    x= 14,
+                                                    y= 35,
+                                                    anchor_x='left',
+                                                    anchor_y='bottom')
         self._set_fps(window_config['fps'])
+        self.fps_display.update()
         self.reset_keys()
         self.mouse_pressed = False
         self.mouse = Point()
@@ -25,6 +32,7 @@ class Window(window.Window):
     
     def _set_fps(self, fps=60):
         self.clock.set_fps_limit(fps)
+        self.fps_display.set_fps(fps)
 
     def set_line_width(self, width=3.0):
         gl.glLineWidth(width)
@@ -32,10 +40,10 @@ class Window(window.Window):
     def set_point_size(self,size=1.7):
         gl.glPointSize(size)
 
-    def screen_to(self,zoom_lvl, p): #p here is numpy arrays.  TODO make "Point numpy arrays"
+    def screen_to(self,zoom_lvl, p):
         return (np.array(p.gl_repr()) - (self.width / 2, self.height / 2)) / zoom_lvl
 
-    def to_screen(self,zoom_lvl, p): #p here is numpy arrays.  TODO make "Point numpy arrays"
+    def to_screen(self,zoom_lvl, p):
         return p * zoom_lvl + (self.width / 2.0, self.height / 2.0)
 
     def reset_keys(self):
@@ -65,15 +73,12 @@ class Window(window.Window):
     def on_key_release(self, symbol, modifiers):
         pass
 
-    def set_particles(self, particles):
+    def set_particles(self, points,colors):
         self.particles = []
         self.particle_batch = graphics.Batch()
 
-        for p in particles:
-            r = np.random.randint(170, 256)
-            g = np.random.randint(170, 256)
-            b = np.random.randint(70, 256)
-            new_p = self.particle_batch.add(1, gl.GL_POINTS, None, ('v2f/stream', p), ('c3B', (r, g, b)))
+        for i, p in enumerate(points):
+            new_p = self.particle_batch.add(1, gl.GL_POINTS, None, ('v2f/stream', p), ('c3B', colors[i]))
             self.particles += [new_p]
 
     def update_particles(self, particles):
@@ -127,9 +132,12 @@ class Window(window.Window):
                              ('v2f', point),
                              ('c3B', color))
 
-    def draw_text(self,text,size=18,p=None):
-        p = (10,10) if not p else p
-        self.label = pyglet.text.Label(text,font_name='monospace',font_size=size,x=p[0],y=p[1],anchor_x='left',anchor_y='bottom')
+    def draw_text(self,text):
+        self.label.__setattr__('text',text)
+        
+    def draw_fps(self):
+        self.fps_display.set_fps(pyglet.clock.get_fps())
+        self.fps_display.draw()
 
     def update(self):
         if self.has_exit:
@@ -138,7 +146,8 @@ class Window(window.Window):
 
         if self.label: self.label.draw()
         if self.particle_batch: self.particle_batch.draw()
-
+        self.fps_display.update()
+        self.draw_fps()
         self.dispatch_events()
         self.dispatch_event('on_draw')
         self.flip()
@@ -152,7 +161,15 @@ class Visuals(object):
         self.zoom = conf.zoom
         self.noisy = conf.noisy
         self.clear = conf.clear
-        self.window = Window(window_config=conf.window)
+        self.window = Window(window_config=conf.window,fullscreen=prog_conf.fullscreen)
+        text_config = conf.opt['text_overlay']
+        if conf.display_text_overlay:
+            self.window.label = pyglet.text.Label(font_name=text_config['font'],
+                                                    font_size=text_config['font_size'],
+                                                    x=text_config['position']['x'],
+                                                    y=text_config['position']['y'],
+                                                    anchor_x=text_config['position']['x_anchor'],
+                                                    anchor_y=text_config['position']['y_anchor'])
         self.window.set_line_width(conf.init_line_width)
         self.window.set_point_size(conf.init_particle_size)
         self.MAX_PARTICLES = prog_conf.max_particles
@@ -164,42 +181,70 @@ class Visuals(object):
         self.t = 0# this too
         self.tt = 0# this too
         self.inflfl = 2.5
+        self.init()
     
     def init(self, influencer=None):
-        global points, net, h0, c0
+        global points,colors, net, h0, c0
         h0 = np.zeros([self.POINTS, self.HDIM])
         c0 = np.zeros([self.POINTS, self.HDIM])
         points = np.random.randn(self.POINTS, 2) * 2
+        colors = np.asarray([(np.random.randint(120, 240),np.random.randint(120, 240),np.random.randint(120, 240)) for x in range(len(points))])
         if influencer is not None: self.influencer = influencer
         #else: self.influencer = lambda : return random through exception here,
         #cuz even "complete random" should be "built"
-        self.window.set_particles(points)
+        self.window.set_particles(points,colors)
 
     def __handle_input(self): 
         if 1 < 2:
             return False
 
-    def sizer_influencer(self, points):
+    def sizer_influencer(self):
+        global points
+        points = np.random.randn(self.POINTS, 2)
+        y_thing = 1.3
         if self.inflfl > 0.2: self.inflfl -= 0.075
-        else: self.inflfl = 2.75
-        return points * self.inflfl
+        else:
+            self.inflfl = 2.75
+            y_thing = 0.2
+        points[:,0] *= self.inflfl
+        points[:,1] *= self.inflfl * y_thing
+
+    def move_around_influencer(self):
+        global points
+        move = lambda arr: np.asarray([x + (0.06 - np.random.rand() * 0.12) for x in arr])
+        points = np.apply_along_axis(move,0,points)
+        points = np.apply_along_axis(move,1,points)
+
+
+    def get_influencer_info(self): #TODO make into a "Influencer interface function call" or program level call?
+                                   #that would ask the influencer?
+        return 'Untrained LSTM fixed points and attractors. Hidden dimension: {}'.format(self.HDIM)
 
     def run(self):
+        global points, colors
+        self.clear_tick = 1
         while True:
             self.window.clock.tick()
-            if self.clear:
+            if self.clear: #if I want a "trail" I will need a point history, not clear weirdness, OR an
+                           #alpha fill that has "decay rate"
+                            #like "if self.trail_clear"
+                            #"self.window.trail_clear" which doesn't clear, it
+                            #draws a see-through square over the whole screen
                 self.window.clear()
 
             self.__handle_input()
         
-            points = np.random.randn(self.POINTS, 2)
-            points = self.sizer_influencer(points) #this is the magic step TODO a "callable" type hint argument, making this a
-                                                   #higher order function
-            self.window.set_particles(points)
+            self.move_around_influencer() #this is the magic step TODO a "callable" type hint argument, making this a
+                                          #higher order function
+            self.window.set_particles(points,colors)
             self.window.update_particles(self.window.to_screen(self.zoom,points))
 
+            if self.graphics_config.display_text_overlay:
+                txt = self.get_influencer_info()
+                self.window.draw_text(txt)
+                
             if self.window.update() == False:
                 break
-    
+            self.clear_tick += 1
         self.window.close()
         print("visuals shut down.")

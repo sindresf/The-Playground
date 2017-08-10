@@ -1,14 +1,14 @@
 class Config_struct(object):
     def __init__(self, struct_name="Base Config Structure"):
         self.name = struct_name
+        self.opt = {}
 
     def register_config_setting(self, setting, configuration):
         setattr(self, setting, configuration)
 
     def register_opt_config_settings(self, opts):
-        self.opt = lambda: None
-        for key in opts:
-            setattr(self.opt, key, opts[key])
+        for setting,configuration in opts.items():
+            self.opt[setting] = configuration
 
     def __str__(self):
         #TODO "stringbuilder" indent tree of attributes and values

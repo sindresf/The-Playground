@@ -1,10 +1,11 @@
 {
 	"program": {
 		"display_graphics": true,
+		"fullscreen": true,
 		"random_seed": 21,
-		"max_particles": 10000,
-		"max_add_particles": 150,
-		"init_particle_amount": 2000,
+		"max_particles": 4000,
+		"max_add_particles": 120,
+		"init_particle_amount": 1000,
 		"particle_influencer": "network",
 		"opt": {
 			"nothing": 0
@@ -14,7 +15,7 @@
 	"graphics": {
 		"window": {
 			"width": 1920,
-			"height": 1080,
+			"height": 1200,
 			"fps": 60
 		},
 		"key_bindings": {
@@ -38,10 +39,10 @@
 			},
 			"text_overlay": {
 				"font": "monospace",
-				"font_size": 18,
+				"font_size": 16,
 				"position": {
-					"x": 10,
-					"y": 10,
+					"x": 12,
+					"y": 12,
 					"x_anchor": "left",
 					"y_anchor": "bottom"
 				}
