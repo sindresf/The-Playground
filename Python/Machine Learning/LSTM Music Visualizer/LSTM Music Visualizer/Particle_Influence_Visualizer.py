@@ -1,4 +1,4 @@
-from ml_module.interface import IInfluencer
+from influence_module.interface import IInfluencer
 from music_module.interface import IMusic
 from graphics_module.interface import IVisuals
 from parse_module.interface import parse_config
@@ -22,10 +22,14 @@ def parse(*arg):
     np.random.seed(configs.program.random_seed)
     print_time_since(start,"parsing")
 
+def _get_influencer_config(config):
+    if config.program.influencer_type == "random": return config.random_influencer
+    if config.program.influencer_type == "network": return config.network_influencer
+
 def build(): #build everything
     global configs, i_influencer, i_visuals,i_music
     start = timer()
-    i_influencer = IInfluencer(configs.influencer)
+    i_influencer = IInfluencer(_get_influencer_config(configs))
     i_influencer.build()
     i_visuals = IVisuals(i_influencer.influence_visual_object, i_influencer.influencer_description, configs.graphics,configs.program)
     i_visuals.build()

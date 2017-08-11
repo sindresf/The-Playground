@@ -1,7 +1,7 @@
 import numpy as np
-from ml_module.random_walkers import Random_move_and_shift
-from ml_module.random_walkers import Random_move
-from ml_module.Influencer import Influencer
+from influence_module.random_walkers import Random_move_and_shift
+from influence_module.random_walkers import Random_move
+from influence_module.Influencer import Influencer
 class LSTM(object):
     """description of class
     

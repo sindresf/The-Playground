@@ -5,8 +5,8 @@
 		"random_seed": 21,
 		"max_particles": 4000,
 		"max_add_particles": 120,
-		"init_particle_amount": 900,
-		"particle_influencer": "network",
+		"init_particle_amount": 1200,
+		"influencer_type": "random",
 		"opt": {
 			"nothing": 0
 		}
@@ -25,7 +25,6 @@
 			"the_rest": "are all keys"
 		},
 		"zoom": 80,
-		"noisy": false,
 		"clear": true,
 		"trail": false,
 		"color_scheme": "b&w",
@@ -34,14 +33,14 @@
 		"init_particle_size": 4.0,
 		"display_text_overlay": true,
 		"opt": {
-			"trail_length": 13,
+			"trail_length": 3,
 			"init_color_range": {
-				"min": 70,
-				"max": 240
+				"min": 100,
+				"max": 225
 			},
 			"init_distro_center": {
-				"x": 20,
-				"y": 20
+				"x": 0,
+				"y": 0
 			},
 			"text_overlay": {
 				"font": "monospace",
@@ -56,16 +55,20 @@
 		}
 	},
 
-	"influencer": {
-		"type": "random_move_and_shift",
+	"network_influencer": {
+		"type": "lstm",
 		"input_size": 2,
 		"layer_count": 3,
 		"layer_sizes": [ 40, 50, 20 ],
-		"layer_activations": [ "tanh", "relu", "relu" ],
+		"layer_activations": [ "tanh", "relu", "relu", "softmax" ],
 		"output_size": 2,
 		"opt": {
 			"nothing": 0
 		}
+	},
+
+	"random_influencer": {
+		"type": "random_move_and_shift"
 	},
 
 	"music": {

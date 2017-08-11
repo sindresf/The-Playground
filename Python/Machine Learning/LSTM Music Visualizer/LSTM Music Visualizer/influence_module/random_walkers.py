@@ -1,5 +1,5 @@
 import numpy as np
-from ml_module.Influencer import Influencer
+from influence_module.Influencer import Influencer
 
 class Random_move(Influencer):
     def __init__(self,conf):
@@ -18,7 +18,7 @@ class Random_move(Influencer):
         return np.apply_along_axis(self._move,1,visual_objects[0]), visual_objects[1]
 
     def influencer_info(self):
-        return "Random points mover"
+        return "Random points mover."
 
 class Random_move_and_shift(Random_move):
     def __init__(self,conf):
@@ -27,26 +27,25 @@ class Random_move_and_shift(Random_move):
         self.color_max = 255 #conf.color_max
         self.color_rand_max = 7 #conf.color_rand_max
         self.color_rand_min = 1 - self.color_rand_max
-
         self.shift_pool_size = 19467 #cool
         self.shift_c = np.random.rand(self.shift_pool_size)
         self.shift_rands = np.random.randint(self.color_rand_min,self.color_rand_max,(self.shift_pool_size,3))
         self.shift_index = 0
+        self.color_yeah = lambda c,r: max(self.color_min, min(self.color_max, c + r))
 
     def _color_shift(self,c):
-        #rands = np.random.randint(self.color_rand_min,self.color_rand_max,3)
         this_shift = self.shift_rands[self.shift_index]
         shift_c = self.shift_c[self.shift_index]
         self.shift_index = (self.shift_index + 1) % self.shift_pool_size
-        color_yeah = lambda c,r: max(self.color_min, min(self.color_max, c + r))
+        
         if shift_c < 0.331:
-            r = color_yeah(c[0],this_shift[0])
+            r = self.color_yeah(c[0],this_shift[0])
             return (r,c[1],c[2])
         elif shift_c < 0.671:
-            g = color_yeah(c[1],this_shift[1])
+            g = self.color_yeah(c[1],this_shift[1])
             return (c[0],g,c[2])
         elif shift_c < 1.01:
-            b = color_yeah(c[2],this_shift[2])
+            b = self.color_yeah(c[2],this_shift[2])
             return (c[0],c[1],b)
 
     def influence(self, visual_objects):
@@ -56,4 +55,4 @@ class Random_move_and_shift(Random_move):
         return points,colors
         
     def influencer_info(self):
-        return "Random points mover and colour shifter"
+        return "Random points mover and colour shifter."

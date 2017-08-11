@@ -1,6 +1,7 @@
 from graphics_module.objects import *
 import numpy as np
 import pyglet
+pyglet.options['debug_gl'] = 0
 from pyglet.gl import * #TODO this can all be cleaned up after it's working
 from pyglet import gl
 from pyglet.window import key
@@ -12,7 +13,7 @@ from pyglet import window
 
 class Window(window.Window):
     def __init__(self,window_config=None,fullscreen=False):
-        super().__init__(width=window_config['width'], height=window_config['height'],fullscreen=fullscreen, screen = window.get_platform().get_default_display().get_screens()[1])
+        super().__init__(width=window_config['width'], height=window_config['height'], vsync=False,fullscreen=fullscreen, screen = window.get_platform().get_default_display().get_screens()[1])
         self.__config = window_config
         self.clock = clock.get_default()
         self.fps_display = pyglet.window.FPSDisplay(self)
@@ -156,10 +157,9 @@ class Window(window.Window):
 class Visuals(object):
     def __init__(self, conf, prog_conf):
         self.graphics_config = conf
-        self.program_config = prog_conf #just remove this if I end up don't needing it
+        self.program_config = prog_conf
         self.key_config = conf.key_bindings
         self.zoom = conf.zoom
-        self.noisy = conf.noisy
         self.clear = conf.clear
         self.trailing = conf.trail
         self.window = Window(window_config=conf.window,fullscreen=prog_conf.fullscreen)

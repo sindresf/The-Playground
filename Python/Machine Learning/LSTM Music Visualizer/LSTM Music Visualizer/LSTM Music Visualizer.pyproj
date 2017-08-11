@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a5e81723-722b-4215-8b86-5052d5b8556d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>LSTM_Music_Visualizer.py</StartupFile>
+    <StartupFile>Particle_Influence_Visualizer.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,10 +25,11 @@
     <Compile Include="graphics_module\interface.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ml_module\Influencer.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ml_module\random_walkers.py">
+    <Compile Include="influence_module\Influencer.py" />
+    <Compile Include="influence_module\interface.py" />
+    <Compile Include="influence_module\LSTM_influencer.py" />
+    <Compile Include="influence_module\random_walkers.py" />
+    <Compile Include="influence_module\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="music_module\interface.py">
@@ -58,13 +59,7 @@
     <Compile Include="graphics_module\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ml_module\interface.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ml_module\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LSTM_Music_Visualizer.py" />
+    <Compile Include="Particle_Influence_Visualizer.py" />
     <Compile Include="music_module\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -76,7 +71,7 @@
     <Content Include="config.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ml_module\" />
+    <Folder Include="influence_module\" />
     <Folder Include="parse_module\" />
     <Folder Include="graphics_module\" />
     <Folder Include="music_module\" />
