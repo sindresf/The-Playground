@@ -5,7 +5,7 @@
 		"random_seed": 21,
 		"max_particles": 4000,
 		"max_add_particles": 120,
-		"init_particle_amount": 800,
+		"init_particle_amount": 900,
 		"particle_influencer": "network",
 		"opt": {
 			"nothing": 0
@@ -34,7 +34,7 @@
 		"init_particle_size": 4.0,
 		"display_text_overlay": true,
 		"opt": {
-			"trail_length": 8,
+			"trail_length": 13,
 			"init_color_range": {
 				"min": 70,
 				"max": 240
