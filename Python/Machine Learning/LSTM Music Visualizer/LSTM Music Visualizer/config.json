@@ -6,7 +6,7 @@
 		"max_particles": 4000,
 		"max_add_particles": 120,
 		"init_particle_amount": 1200,
-		"influencer_type": "random",
+		"influencer_type": "network",
 		"opt": {
 			"nothing": 0
 		}
