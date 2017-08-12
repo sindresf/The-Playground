@@ -2,7 +2,7 @@ class Influencer(object):
     def __init__(self,conf):
         self.config = conf
         
-    def build(self):
+    def build(self,particle_count=0):
         self.build = True
 
     def influence(self, visual_objects):
@@ -15,11 +15,11 @@ class NetworkInfluencer(Influencer):
     def __init__(self,conf):
         self.config = conf
         
-    def build(self):
+    def build(self,particle_count=0):
         self.build = True
 
-    def shift_train(self):
-        self.train = "shift"
+    def shift_train(self,shift_func):
+        self.train = shift_func
 
     def influence(self, visual_objects):
         return visual_objects

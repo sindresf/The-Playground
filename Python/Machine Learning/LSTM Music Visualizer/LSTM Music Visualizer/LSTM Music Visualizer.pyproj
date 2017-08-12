@@ -26,6 +26,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="influence_module\Influencer.py" />
+    <Compile Include="influence_module\input_output_influence_function_mapping.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="influence_module\interface.py" />
     <Compile Include="influence_module\LSTM_influencer.py" />
     <Compile Include="influence_module\random_walkers.py" />
@@ -48,9 +51,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="graphics_module\initialization.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="graphics_module\objects.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="graphics_module\visuals.py">

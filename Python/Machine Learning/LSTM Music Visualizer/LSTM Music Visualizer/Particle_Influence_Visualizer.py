@@ -27,10 +27,11 @@ def _get_influencer_config(config):
     if config.program.influencer_type == "network": return config.network_influencer
 
 def build(): #build everything
+    print("started building")
     global configs, i_influencer, i_visuals,i_music
     start = timer()
     i_influencer = IInfluencer(_get_influencer_config(configs))
-    i_influencer.build()
+    i_influencer.build(configs.program.init_particle_amount)
     i_visuals = IVisuals(i_influencer.influence_visual_object, i_influencer.influencer_description, configs.graphics,configs.program)
     i_visuals.build()
     i_music = IMusic(configs.music)

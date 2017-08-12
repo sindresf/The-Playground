@@ -7,11 +7,8 @@ from influence_module.LSTM_influencer import *
 class IInfluencer(object):
     def __init__(self, conf):
         self.__config = conf
-        print("influencer config:")
-        print(conf)
-        print(self.__config.name)
 
-    def build(self):
+    def build(self,particle_amounts):
         if(self.__config.name == "random_influencer"):
             if self.__config.type == "random_move_and_shift":
                 self.__influencer = Random_move_and_shift(self.__config)
@@ -25,7 +22,7 @@ class IInfluencer(object):
                 self.__influencer = LSTM_influencer(self.__config)
             else:
                 self.__influencer = NetworkInfluencer(self.__config)
-        self.__influencer.build()
+        self.__influencer.build(particle_amounts)
 
     def influence_visual_object(self, vis_objs):
         return self.__influencer.influence(vis_objs)

@@ -1,4 +1,3 @@
-from graphics_module.objects import *
 import numpy as np
 import pyglet
 pyglet.options['debug_gl'] = 0
@@ -26,7 +25,7 @@ class Window(window.Window):
         self.fps_display.update()
         self.reset_keys()
         self.mouse_pressed = False
-        self.mouse = Point()
+        self.mouse = (0,0)
         self.label = None
         self.particle_batch = None
 
@@ -63,10 +62,11 @@ class Window(window.Window):
         self.on_mouse_motion(x, y, dx, dy)
         
     def on_mouse_motion(self, x, y, dx, dy):
-        self.mouse.x = x
-        self.mouse.y = y
-        self.dx = dx
-        self.dy = dy
+        x = 2
+        #self.mouse.x = x
+        #self.mouse.y = y
+        #self.dx = dx
+        #self.dy = dy
 
     def on_key_press(self, symbol, modifiers):
         self.pressed_keys[symbol] = True
@@ -214,9 +214,13 @@ class Visuals(object):
                 trail_colors = np.append(trail_colors,colors,0)
                 self.window.set_particles(trail_points,trail_colors)
                 self.window.update_particles(self.window.to_screen(self.zoom,trail_points))
+                #what if this could be run in an optimal "batch add" distro?
+                #like a thread for every 500 particles?
             else: 
                 self.window.set_particles(points,colors)
                 self.window.update_particles(self.window.to_screen(self.zoom,points))
+                #what if this could be run in an optimal "batch add" distro?
+                #like a thread for every 500 particles?
 
             if self.graphics_config.display_text_overlay:
                 txt = influencer_descriptor_function()

@@ -57,13 +57,18 @@
 
 	"network_influencer": {
 		"type": "lstm",
+		"structure": "sequential",
 		"input_size": 2,
-		"layer_count": 3,
-		"layer_sizes": [ 40, 50, 20 ],
-		"layer_activations": [ "tanh", "relu", "relu", "softmax" ],
 		"output_size": 2,
+		"layer_count": 3,
+		"layer_types": [ "lstm", "lstm", "lstm" ],
+		"layer_sizes": [ 6, 9, 2 ],
+		"layer_activations": [ "tanh", "relu", "softmax" ],
+		"training_enabled": true,
 		"opt": {
-			"nothing": 0
+			"optimizer": "rmsprop",
+			"learning_rate": 0.01,
+			"loss_func": "categorical_crossentropy"
 		}
 	},
 
