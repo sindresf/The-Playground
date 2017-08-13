@@ -12,7 +12,7 @@ from pyglet import window
 
 class Window(window.Window):
     def __init__(self,window_config=None,fullscreen=False):
-        super().__init__(width=window_config['width'], height=window_config['height'], vsync=False,fullscreen=fullscreen, screen = window.get_platform().get_default_display().get_screens()[1])
+        super().__init__(width=window_config['width'], height=window_config['height'], vsync=False,fullscreen=fullscreen, screen = window.get_platform().get_default_display().get_screens()[2])
         self.__config = window_config
         self.clock = clock.get_default()
         self.fps_display = pyglet.window.FPSDisplay(self)
@@ -185,6 +185,8 @@ class Visuals(object):
     def build(self):
         global points,colors
         points = np.random.randn(self.POINTS, 2) * 2
+        print("init min: " + str(np.min(points)))
+        print("init max: " + str(np.max(points)))
         min = self.graphics_config.opt.init_color_range['min']
         max = self.graphics_config.opt.init_color_range['max'] + 1
         colors = np.asarray([np.random.randint(min, max,3) for x in range(self.POINTS)])
@@ -205,6 +207,8 @@ class Visuals(object):
             self.__handle_input()
         
             points,colors = influencer_function((points,colors))
+            print("output max: " + str(np.max(points)))
+            print("output min: " + str(np.min(points)))
 
             if self.trailing:
                 if len(trail_points) >= self.POINTS * self.graphics_config.opt.trail_length:

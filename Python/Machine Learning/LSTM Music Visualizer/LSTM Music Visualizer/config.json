@@ -5,7 +5,7 @@
 		"random_seed": 21,
 		"max_particles": 4000,
 		"max_add_particles": 120,
-		"init_particle_amount": 1200,
+		"init_particle_amount": 200,
 		"influencer_type": "network",
 		"opt": {
 			"nothing": 0
@@ -16,7 +16,7 @@
 		"window": {
 			"width": 1920,
 			"height": 1200,
-			"fps": 60
+			"fps": 2
 		},
 		"key_bindings": {
 			"reset": "R",
@@ -60,15 +60,16 @@
 		"structure": "sequential",
 		"input_size": 2,
 		"output_size": 2,
-		"layer_count": 3,
-		"layer_types": [ "lstm", "lstm", "lstm" ],
-		"layer_sizes": [ 6, 9, 2 ],
-		"layer_activations": [ "tanh", "relu", "softmax" ],
-		"training_enabled": true,
+		"layer_count": 4,
+		"layer_types": [ "lstm", "lstm", "lstm", "lstm" ],
+		"layer_sizes": [ 25, 25, 25, 2 ],
+		"layer_activations": [ "tanh", "relu", "tanh", "relu" ],
+		"training_enabled": false,
+		"optimizer": "rmsprop",
+		"learning_rate": 0.01,
+		"loss_func": "categorical_crossentropy",
+		"init_method": "RandomUniform",
 		"opt": {
-			"optimizer": "rmsprop",
-			"learning_rate": 0.01,
-			"loss_func": "categorical_crossentropy"
 		}
 	},
 

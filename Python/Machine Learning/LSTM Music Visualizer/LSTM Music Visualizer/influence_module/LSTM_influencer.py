@@ -4,6 +4,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.layers import LSTM
 from keras.optimizers import RMSprop
+from keras import initializers
 
 class LSTM_influencer(NetworkInfluencer):
     def __init__(self,conf):
@@ -16,17 +17,16 @@ class LSTM_influencer(NetworkInfluencer):
         self.layer_sizes = conf.layer_sizes
         self.layer_activations = conf.layer_activations
         self.output_size = conf.output_size
+        self.training_enabled = conf.training_enabled
+        self.optimizer = conf.optimizer
+        self.loss_func = conf.loss_func
+        self.learning_rate = conf.learning_rate
         #class settings
         self.first_layer = True
         self.last_layer = False
         self.__get_input_output_size_based_function()
         #optional settings
         opt = conf.opt
-        if conf.training_enabled:
-            self.training_enabled = conf.training_enabled
-            self.optimizer = opt.optimizer
-            self.loss_func = opt.loss_func
-            self.learning_rate = opt.learning_rate
 
     def __get_input_output_size_based_function(self):
         i,o = self.input_size - 1, self.output_size - 1
@@ -54,12 +54,18 @@ class LSTM_influencer(NetworkInfluencer):
             if self.first_layer:
                 self.first_layer = False
                 if self.multilayer:
-                    layer = LSTM(layer_size, return_sequences = True, input_shape=(1, self.input_size, 1))
+                    layer = LSTM(layer_size,
+                                 return_sequences = True,
+                                 input_shape=(None, self.input_size),
+                                 bias_initializer='ones',
+                                 kernel_initializer=initializers.random_uniform(minval=-1.5, maxval=1.5))
                 else:
-                    layer = LSTM(layer_size, input_shape=(1,self.input_size))
+                    layer = LSTM(layer_size, input_shape=(1,self.input_size),
+                                 bias_initializer='ones',kernel_initializer=initializers.random_uniform(minval=-1.5, maxval=1.5))
             elif not self.last_layer:
                 self.last_layer == (layer_num + 1) == self.layers
-                layer = LSTM(layer_size, return_sequences = True)
+                layer = LSTM(layer_size, return_sequences = True,
+                                 bias_initializer='ones',kernel_initializer=initializers.random_uniform(minval=-1.5, maxval=1.5))
         else:
             print("no layer match.")
 
@@ -83,31 +89,22 @@ class LSTM_influencer(NetworkInfluencer):
             for l in range(self.layers):
                 layer = self.__get_layer(l)
                 self.network.add(layer)
-                activation = self.__get_layer_activation(l)
-                self.network.add(activation)
+                #activation = self.__get_layer_activation(l)
+                #self.network.add(activation)
         else:
             layer = self.__get_layer(0)
             self.network.add(layer)
             activation = self.__get_layer_activation(0)
             self.network.add(activation)
-
-
-        if self.training_enabled:
-            self.network.compile(loss=self.loss_func, optimizer=self.__get_optimizer())
-        else:
-            self.network.compile()
+        self.network.compile(loss=self.loss_func, optimizer=self.__get_optimizer())
 
     def shift_train(self,shift_func):
         self.train = shift_func
 
     def influence(self, visual_objects):
-        ops,ocs = [],[]
-        ips,ics = visual_objects
-        for ip,ic in zip(ips,ics):
-            op,oc = self.influence_function(self.network,ip,ic)
-            ops.append(op)
-            ocs.append(oc)
-        return ops,ocs
+        ip, ic = visual_objects
+        op,oc = self.influence_function(self.network,ip,ic)
+        return op, oc
 
     def influencer_info(self):
         return "LSTM. {info}"
