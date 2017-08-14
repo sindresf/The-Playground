@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ea1bd9ba-0df6-4230-80ef-cb7119efa767</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>G.E_A_generic.py</StartupFile>
+    <StartupFile>GEAlgorithm.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,10 +22,50 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="G.E_A_generic.py" />
+    <Compile Include="evolution\crossovers.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="evolution\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GEAlgorithm.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="genome\genes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="genome\morphology.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="genome\mutators.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="genome\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="parse_module\config_structs.py" />
+    <Compile Include="parse_module\interface.py" />
+    <Compile Include="parse_module\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda36-64" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="configs\genome\" />
+    <Folder Include="configs\evolution\" />
+    <Folder Include="configs\image\" />
+    <Folder Include="evolution\" />
+    <Folder Include="genome\" />
+    <Folder Include="configs\" />
+    <Folder Include="parse_module\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="configs\evolution\basic_evolution_config.json" />
+    <Content Include="configs\genome\basic_genome_config.json" />
+    <Content Include="configs\image\basic_image_config.json" />
+    <Content Include="configs\program_config.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

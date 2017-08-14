@@ -1,0 +1,9 @@
+{
+	"image": {
+		"type": "B&W",
+		"sample_rate": 1,
+		"opt": {
+			"nothing": 0
+		}
+	}
+}

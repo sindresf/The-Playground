@@ -1,0 +1,14 @@
+{
+	"program": {
+		"display_progress": true,
+		"display_goal": true,
+		"fullscreen": true,
+		"random_seed": 21,
+		"genome_config": "basic_genome_config.json",
+		"evolution_config": "basic_evolution_config.json",
+		"image_config": "basic_image_config.json",
+		"opt": {
+			"nothing": 0
+		}
+	}
+}

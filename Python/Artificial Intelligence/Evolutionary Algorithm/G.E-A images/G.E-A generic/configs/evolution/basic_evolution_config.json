@@ -1,0 +1,15 @@
+{
+	"evolution": {
+		"population_size": 30,
+		"generation_max_try": 2000,
+		"no_improvement_early_end": 500,
+		"parent_selection_method": "top",
+		"morphology_function": null,
+		"crossover": false,
+		"opt": {
+			"select_top": 5,
+			"crossover_chance": 0.25,
+			"crossover_method": "split_mid"
+		}
+	}
+}
