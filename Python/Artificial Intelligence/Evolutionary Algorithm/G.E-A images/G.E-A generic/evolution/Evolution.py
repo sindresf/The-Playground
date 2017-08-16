@@ -8,7 +8,11 @@ class Evolution(object):
         #here goes all the "direct settings" like:
         self.population_size = conf.population_size
         self.population_type = conf.population_type
-        self.speciation = conf.speciation
+        self.generation_max_try = conf.generation_max_try
+        self.no_improvement_early_end = conf.no_improvement_early_end
+        self.parent_selection_method = conf.parent_selection_method
+        self.morphology_function = conf.morphology_function
+        self.crossover = conf.crossover
         #set optional configs
         self.__set_optional_configs(conf)
         #at the end:

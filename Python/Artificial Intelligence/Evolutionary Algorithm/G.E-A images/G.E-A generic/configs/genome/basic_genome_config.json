@@ -1,11 +1,12 @@
 {
 	"genome": {
-		"type": "full",
-		"gene_type": "int",
+		"type": [ "fixed", "full" ],
+		"init_size": 20,
+		"gene_type": [ "int" ],
 		"mutation": true,
 		"gene_position_mutation": false,
 		"mutation_chance": 0.25,
-		"mutation_method": "one",
+		"mutation_method": [ "one" ],
 		"opt": {
 			"nothing": 0
 		}

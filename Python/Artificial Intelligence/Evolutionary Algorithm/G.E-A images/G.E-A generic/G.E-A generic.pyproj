@@ -28,6 +28,9 @@
     <Compile Include="evolution\Evolution.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="evolution\fitness_functions\array_comparison.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="evolution\fitness_functions\__init__.py">
       <SubType>Code</SubType>
     </Compile>

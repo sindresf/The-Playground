@@ -1,6 +1,7 @@
 {
 	"evolution": {
 		"population_size": 30,
+		"population_type": [ "fixed", "standard" ],
 		"generation_max_try": 2000,
 		"no_improvement_early_end": 500,
 		"parent_selection_method": "top",
